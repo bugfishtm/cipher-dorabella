@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What cipher is it &middot; Dorabella</title>
+<meta name="description" content="What is ruled out, what survives, and the one number no model explains.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="./favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="10-verdict.html">
+<div class="mbar">
+  <button class="navtoggle" id="navtoggle" type="button" aria-expanded="false" aria-controls="side">&#9776; menu</button>
+  <span class="cur">[10] What cipher is it</span>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contents">
+  <button class="navtoggle navclose" id="navclose" type="button">&times; close</button>
+  <div class="brand"><a href="index.html">
+    <div class="t">DORABELLA</div><div class="s">cipher &middot; 1897 &middot; open case</div></a></div>
+  <ol class="navlist">
+    <li><a href="index.html"><span class="n">00</span><span>The investigation</span></a></li>
+    <li class="grp">Background &mdash; what I read</li>
+    <li><a href="01-note.html"><span class="n">01</span><span>The note</span></a></li>
+    <li><a href="02-elgar.html"><span class="n">02</span><span>Edward Elgar</span></a></li>
+    <li><a href="03-other-ciphers.html"><span class="n">03</span><span>His other ciphers</span></a></li>
+    <li><a href="04-record.html"><span class="n">04</span><span>The published record</span></a></li>
+    <li class="grp">Investigation &mdash; what I did</li>
+    <li><a href="05-transcription.html"><span class="n">05</span><span>My transcription</span></a></li>
+    <li><a href="06-snowflake.html"><span class="n">06</span><span>The snowflake key</span></a></li>
+    <li><a href="07-measurements.html"><span class="n">07</span><span>Measurements</span></a></li>
+    <li><a href="08-attempts.html"><span class="n">08</span><span>What I tried</span><span class="star">&#9733;</span></a></li>
+    <li><a href="09-hunt.html"><span class="n">09</span><span>The long hunt</span></a></li>
+    <li><a href="10-verdict.html"><span class="n">10</span><span>What cipher is it</span></a></li>
+    <li><a href="11-next.html"><span class="n">11</span><span>What to do next</span></a></li>
+    <li class="grp">Reference</li>
+    <li><a href="12-sources.html"><span class="n">12</span><span>Sources &amp; gallery</span></a></li>
+    <li><a href="13-workbench.html"><span class="n">13</span><span>Workbench</span></a></li>
+  </ol>
+  <div class="sidefoot" id="sidestat"></div>
+  <div class="sidelegal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a><a href="https://github.com/bugfishtm/cipher-dorabella">GitHub</a></div>
+</aside>
+<main class="main">
+<div class="phead"><div class="wrap">
+  <div class="crumb"><span class="sec">[10]</span> &middot; INVESTIGATION</div>
+  <h1>What cipher is it</h1>
+  <p class="lede">What is ruled out, what survives, and the one number no model explains.</p>
+</div></div>
+<div class="wrap">
+<div class="panel">
+  <h3>The central paradox</h3>
+  <p>Everything measured points two ways at once, and any real solution has to explain <b>both</b> halves.</p>
+  <div class="cols2">
+    <div class="box ok"><h4 style="color:var(--ok)">It looks like language</h4>
+      <p>Letter frequencies fit English at the 30th percentile (&chi;&sup2; = 5.01). Index of coincidence, entropy,
+      doubled glyphs, repeated bigrams &mdash; all inside the range for 87 characters of real English. Mirrored symbol
+      pairs occur far above chance, so it is not random scribble.</p></div>
+    <div class="box ko"><h4 style="color:var(--bad)">But it does not read as language</h4>
+      <p>No substitution, under any reading order or key motion tried, scores better than the 0th percentile &mdash; z
+      between &minus;7.5 and &minus;9.6 &mdash; while the same solver recovers a median 87/87 letters on real English
+      controls. Two published studies reach the same conclusion independently.</p></div>
+  </div>
+  <p><b>What resolves it.</b> Frequencies survive a transposition; n-gram order does not. So either a <b>second
+  layer</b> sits on top of the substitution, or the plaintext is <b>not ordinary English</b> &mdash; shorthand,
+  phonetics, initials, or another language. Those are the two live branches, and they call for different attacks.</p>
+  <p class="note-warn"><b>The honest caveat, repeated because it matters:</b> at 87 characters a search free to pick
+  both a substitution <i>and</i> a rearrangement will manufacture English-looking output by chance. Any transposition
+  theory has to arrive with an <b>independent reason</b> for its particular rearrangement &mdash; a rule Elgar might
+  plausibly have used &mdash; not a rule fitted to make the output look good.</p>
+</div>
+
+<div class="grid2">
+  <div class="panel">
+    <h3 style="color:var(--bad)">Ruled out</h3>
+    <div class="hyp dead"><h4>A regular rotating key</h4><p>Orientation &chi;&sup2; = 26.6, p = 0.0003; key-free.
+      <a href="07-measurements.html#rotation">[07]</a></p></div>
+    <div class="hyp dead"><h4>A plain substitution of English</h4><p>z &minus;7.5 to &minus;9.6 at matched effort; Wase
+      (2023) and Hauer (2021) agree.</p></div>
+    <div class="hyp dead"><h4>A repeating-key polyalphabetic, period 2&ndash;22</h4><p>No coset-IC peak at any period.</p></div>
+    <div class="hyp dead"><h4>A Wheatstone clock cryptograph</h4><p>Refuted by three of the five diagnostics in simulation.</p></div>
+    <div class="hyp dead"><h4>Random symbols (a hoax)</h4><p>Refuted by four diagnostics; and the mirrored pairs are
+      unlikely to be chance.</p></div>
+  </div>
+  <div class="panel">
+    <h3 style="color:var(--warn)">Still alive</h3>
+    <div class="hyp open"><h4>Substitution of a private shorthand</h4><p>Explains English-shaped frequencies with
+      non-English order &mdash; needs no cipher technique at all.</p></div>
+    <div class="hyp open"><h4>Substitution + transposition</h4><p>Fits both halves of the paradox; nothing documents
+      Elgar using a transposition.</p></div>
+    <div class="hyp open"><h4>A text-driven rotating key</h4><p>Irregular schedules escape the &chi;&sup2; argument.</p></div>
+    <div class="hyp open"><h4>A two-alphabet polyalphabetic</h4><p>Survives every diagnostic except the mirror count that
+      no model explains; four alphabets already fail two.</p></div>
+    <div class="hyp open"><h4>Another language</h4><p>Latin ranks first in both Hauer's and my language
+      identification. Not tested at full strength.</p></div>
+  </div>
+</div>
+
+<div class="panel" style="margin-top:14px">
+  <h3>Which cipher model? &mdash; a simulation-backed comparison</h3>
+  <p>The question is not &ldquo;what could produce 87 symbols&rdquo; (almost anything can) but &ldquo;what could a
+  self-taught amateur plausibly do at a desk in July 1897, that also reproduces every measured property of this
+  document&rdquo;. For each candidate model <code>lab/model_prior.py</code> <b>simulates</b> it 320 times on real
+  English, measures the same five diagnostics, and asks where Dorabella falls in each simulated distribution. A model is
+  compatible with a diagnostic if Dorabella lands inside the central 90% of what the model produces; refuted if it lands
+  in the tail. That gives a computed likelihood; combined with an explicitly subjective historical prior, a ranking.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>model</th><th class="n">prior</th><th class="n">fit</th><th class="n">posterior</th></tr></thead>
+    <tbody>
+    <tr><td>substitution of a private shorthand</td><td class="n">0.15</td><td class="n">0.522</td><td class="n"><b>33.2%</b></td></tr>
+    <tr><td>substitution + transposition</td><td class="n">0.14</td><td class="n">0.522</td><td class="n"><b>31.0%</b></td></tr>
+    <tr><td>text-driven rotating key</td><td class="n">0.08</td><td class="n">0.522</td><td class="n"><b>17.7%</b></td></tr>
+    <tr><td>2-alphabet polyalphabetic</td><td class="n">0.06</td><td class="n">0.522</td><td class="n"><b>13.3%</b></td></tr>
+    <tr><td>monoalphabetic English</td><td class="n">0.30</td><td class="n">0.037</td><td class="n">4.7%</td></tr>
+    <tr><td>4-alphabet polyalphabetic</td><td class="n">0.05</td><td class="n">0.003</td><td class="n">0.1%</td></tr>
+    <tr><td>Wheatstone clock cryptograph</td><td class="n">0.07</td><td class="n">0.000</td><td class="n">0.0%</td></tr>
+    <tr><td>regular rotating key (period 8)</td><td class="n">0.10</td><td class="n">0.000</td><td class="n">0.0%</td></tr>
+    <tr><td>random symbols (hoax)</td><td class="n">0.05</td><td class="n">0.000</td><td class="n">0.0%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note-warn"><b>Read the fit column, not just the posterior.</b> The top four have <i>identical</i> computed
+  fit (0.522): the evidence cannot tell them apart. Their order comes entirely from my priors, which are judgement calls
+  printed so they can be argued with. What the evidence does do is push plain English substitution (the highest prior,
+  0.30) down to 4.7% and three models to zero.</p>
+  <h4>Why &mdash; where Dorabella falls in each model's own output</h4>
+  <div class="scroll"><table class="nowrap">
+    <thead><tr><th>model</th><th class="n">D1 freq</th><th class="n">D2 orient</th><th class="n">D3 mirror</th><th class="n">D4 distinct</th><th class="n">D5 solvable</th></tr></thead>
+    <tbody>
+    <tr><td>private shorthand</td><td class="n">15%</td><td class="n">54%</td><td class="n">99% ~</td><td class="n">64%</td><td class="n">45%</td></tr>
+    <tr><td>substitution + transposition</td><td class="n">10%</td><td class="n">51%</td><td class="n">98% ~</td><td class="n">81%</td><td class="n">70%</td></tr>
+    <tr><td>text-driven rotating key</td><td class="n">29%</td><td class="n">89%</td><td class="n">97% ~</td><td class="n">14%</td><td class="n">78%</td></tr>
+    <tr><td>2-alphabet polyalphabetic</td><td class="n">45%</td><td class="n">87%</td><td class="n">99% ~</td><td class="n">20%</td><td class="n">80%</td></tr>
+    <tr><td>monoalphabetic English</td><td class="n">10%</td><td class="n">55%</td><td class="n">98% ~</td><td class="n">81%</td><td class="n" style="color:var(--bad)">0% *</td></tr>
+    <tr><td>4-alphabet polyalphabetic</td><td class="n">26%</td><td class="n" style="color:var(--bad)">98% *</td><td class="n">99% ~</td><td class="n">1%</td><td class="n" style="color:var(--bad)">100% *</td></tr>
+    <tr><td>Wheatstone clock cryptograph</td><td class="n">7%</td><td class="n" style="color:var(--bad)">100% *</td><td class="n">98% ~</td><td class="n" style="color:var(--bad)">0% *</td><td class="n" style="color:var(--bad)">100% *</td></tr>
+    <tr><td>regular rotating key (period 8)</td><td class="n" style="color:var(--bad)">4% *</td><td class="n" style="color:var(--bad)">100% *</td><td class="n">99% ~</td><td class="n" style="color:var(--bad)">1% *</td><td class="n" style="color:var(--bad)">100% *</td></tr>
+    <tr><td>random symbols (hoax)</td><td class="n" style="color:var(--bad)">2% *</td><td class="n" style="color:var(--bad)">100% *</td><td class="n">100% ~</td><td class="n" style="color:var(--bad)">0% *</td><td class="n" style="color:var(--bad)">100% *</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint">Percentile of Dorabella within each model's simulated output. <b>*</b> refutes that model;
+  <b>~</b> refutes every model (see below). D1 rank-matched unigram &chi;&sup2; vs English &middot; D2 evenness of the
+  eight directions &middot; D3 consecutive same-ring 180&deg; pairs &middot; D4 how many of the 24 symbols are used
+  &middot; D5 best substitution solve.</p>
+  <h4>Historical note per model</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>model</th><th>era</th><th>tooling</th></tr></thead>
+    <tbody>
+    <tr><td>private shorthand</td><td>needs no cipher technique at all &mdash; just his own abbreviations</td><td>paper only</td></tr>
+    <tr><td>substitution + transposition</td><td>columnar transposition was common Victorian knowledge; nothing documents Elgar using one</td><td>paper and a ruled grid</td></tr>
+    <tr><td>text-driven rotating key</td><td>no standard published cipher does this; an amateur's own idea</td><td>a disc turned on a rule he invented</td></tr>
+    <tr><td>2-alphabet polyalphabetic</td><td>Vigen&egrave;re family, thoroughly published by 1897</td><td>a Saint-Cyr slide or two written alphabets</td></tr>
+    <tr><td>monoalphabetic English</td><td>trivial; pigpen ciphers were schoolboy knowledge</td><td>paper only</td></tr>
+    <tr><td>4-alphabet polyalphabetic</td><td>the same, with a longer keyword</td><td>a slide or a tabula recta on paper</td></tr>
+    <tr><td>Wheatstone clock cryptograph</td><td>Wheatstone 1867, English, exhibited in Paris; a literal clock face</td><td>a brass pocket device, or a hand-drawn two-ring disc</td></tr>
+    <tr><td>regular rotating key (period 8)</td><td>progressive keys known since Trithemius; Elgar drew clock faces</td><td>a disc, or careful bookkeeping on paper</td></tr>
+    <tr><td>random symbols (hoax)</td><td>requires only mischief</td><td>paper only</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint">The Wheatstone model deserves a word: two geared clock dials of 26 and 27 teeth. You always turn the
+  plaintext hand clockwise to the next letter, so the advance is the alphabetic gap between letters and the tooth
+  mismatch slips the cipher alphabet one step per revolution &mdash; text-driven and irregular, exactly the class the
+  orientation test alone cannot rule out. It fails on the other diagnostics instead.</p>
+</div>
+
+<div class="panel">
+  <h3>The one number nothing explains</h3>
+  <div class="readout">
+    <div class="cell"><span class="k">mirrored 180&deg; pairs</span><span class="v warn">10</span><span class="ref">chance 5.2 &middot; p = 0.03</span></div>
+    <div class="cell"><span class="k">models reproducing it</span><span class="v bad">0 of 9</span><span class="ref">all at 97&ndash;100th pct</span></div>
+  </div>
+  <p>Dorabella has ten places where two consecutive glyphs with the same arc count face exactly opposite ways. That count
+  sits outside the central 90% of <b>all nine</b> simulated models, so it was excluded from the posterior: a diagnostic
+  that refutes every model is not evidence between them, it is evidence that every model is incomplete. <b>It is not a
+  tie-breaker. It is a property no candidate mechanism reproduces</b>, and therefore the most interesting single number in
+  the whole analysis.</p>
+  <p>Hauer et&nbsp;al. used the same pairs to argue against a hoax. Ideas I have for it &mdash; a mirrored pair as one
+  unit written in the wrong order, a reflection applied on a schedule &mdash; are in the experiments tool and on
+  <a href="11-next.html">[11]</a>.</p>
+</div>
+<div class="pagenav"><a href="09-hunt.html"><span class="lbl">&larr; 09</span>The long hunt</a><a href="11-next.html" style="text-align:right"><span class="lbl">11 &rarr;</span>What to do next</a></div>
+</div>
+<footer class="foot"><div class="wrap">
+  <span>Dorabella cipher investigation &middot; bugfish &middot; <a href="https://github.com/bugfishtm/cipher-dorabella">source on GitHub</a></span>
+  <span class="legal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a></span>
+</div></footer>
+</main>
+</div>
+<script src="assets/data.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/app.js"></script>
+</body></html>

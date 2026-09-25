@@ -1,0 +1,443 @@
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="../favicon.ico">
+	<title>Snowflake</title>
+
+	<style>
+		table {
+			width: 500px;
+			
+		}
+		
+		table td {
+			width: 50px;
+			min-width: 50px;
+			max-width: 50px;
+			height: 50px;
+			max-height: 50px;
+			visibility: hidden;
+		}
+		
+		#r1c1, #r1c4, #r1c7, #r2c2, #r2c4, #r2c6, #r3c3, #r3c4, #r3c5, #r4c1, #r4c2, #r4c3, #r4c4, #r4c5, #r4c6, #r4c7, #r5c3, #r5c4, #r5c5,#r6c2, #r6c4, #r6c6, #r7c1, #r7c4, #r7c7 {
+			visibility: visible;
+			border: 1px solid black;
+			background: #EEEEFF;
+			cellspacing: none;
+			cellpadding: none;
+			margin: 0px 0px 0px 0px;
+			padding: 0px 0px 0px 0px;
+			margin-right: -20px;
+		}
+		
+		#r4c4 {
+			border: 1px solid black;
+			background: orange;
+		}
+		
+		#r4c4 input {
+			visibility: hidden;
+		}
+		
+		fieldset {
+			max-width: 500px;
+			margin-bottom: 15px;
+		}
+		
+		.tinput {
+			background: none;
+			border: none;
+			overflow: none;
+			color: black;
+			width: 65px;
+			min-width: 50px;
+			text-align: center;
+			height: 45px;
+			margin: 0px 0px 0px 0px;
+			padding: 0px 0px 0px 0px;
+		}
+		
+	</style>
+
+</head>
+<body>
+<div style="background:#1b150e;border-bottom:1px solid #614a24;color:#e8dcc8;font:12px/1.5 ui-monospace,Consolas,monospace;padding:8px 14px">Archived first version &mdash; kept exactly as it was. <a style="color:#ffb653" href="../08-attempts.html">&larr; back to the investigation</a> &middot; <a style="color:#ffb653" href="https://bugfishtm.github.io/privacy.html">Privacy</a> &middot; <a style="color:#ffb653" href="https://bugfishtm.github.io/impressum.html">Impressum</a></div>
+
+
+	<fieldset>
+		<h4>Encipher</h4>
+		
+		<input type="text" id="iencipher" class="tlock">
+		<button type="button"  class="tlock" onClick="encipher()">Start</button>
+		<p><b>Output:</b> <span id="oencipher"></span></p>
+	</fieldset>
+	
+	<fieldset>
+		<h4>Decipher</h4>
+		
+		<input type="text"id="idecipher" class="tlock">
+		<button type="button" class="tlock" onClick="decipher()">Start</button>
+		<p><b>Output:</b> <span id="odecipher"></span></p>
+	</fieldset>
+	
+	<fieldset>
+		<h4>Controls</h4>
+		
+		<button type="button" class="tlock" onClick="turn_test()">Test</button>
+		<button type="button" class="tlock" onClick="reset()">Reset</button>
+		<button type="button" class="tlock" onClick="fill()">A-X Fill</button>
+		<button type="button" class="tlock" onClick="forward()">Turn Forward</button>
+		<button type="button" class="tlock" onClick="backward()">Turn Backward</button><br />
+		<input type="checkbox" class="tlock" onChange="reverse_now()">Use Backward on Decipher/Encipher
+	</fieldset>
+
+	<table>
+	
+		<tr>
+			<td class="tcell" id="r1c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r1c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r2c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r2c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r3c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r3c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r4c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r4c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r5c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r5c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r6c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r6c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+		<tr>
+			<td class="tcell" id="r7c1"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c2"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c3"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c4"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c5"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c6"><input type="text" maxlength="1" class="tinput"></td>
+			<td class="tcell" id="r7c7"><input type="text" maxlength="1" class="tinput"></td>
+		</tr>
+	
+	</table>
+
+	<script>
+	
+		var matrix = [
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+		];
+		
+		var matrix_names = [
+			[0,0,0,0,0,0,0,0],
+			[0,"3nw",0,0,"3n",0,0,"3ne"],
+			[0,0,"2nw",0,"2n",0,"2ne",0],
+			[0,0,0,"1nw","1n","1ne",0,0],
+			[0,"3w","2w","1w",0,"1e","2e","3e"],
+			[0,0,0,"1sw","1s","1se",0,0],
+			[0,0,"2sw",0,"2s",0,"2se",0],
+			[0,"3sw",0,0,"3s",0,0,"3se"],
+		];
+		
+		var reverse = false;
+		
+		function turn_test() {
+			console.log("Reverse var is");
+			console.log(reverse);
+			if(reverse) { backward(); } else { forward(); }
+		}
+		
+		function get_position_matrix_or_letter(input) {
+		  return Array.from(input.toUpperCase(), char => {
+			if (char < 'A' || char > 'Z') {
+			  return char + " - ";
+			}
+
+			for (let x = 0; x < matrix.length; x++) {
+			  const y = matrix[x].indexOf(char);
+
+			  if (y !== -1) {
+				if(reverse) { backward(); } else { forward(); }
+				return matrix_names[x][y] + " - ";
+			  }
+			}
+
+			return char + " - ";
+		  }).join('');
+		}	
+	
+		function get_decipher_string(input_array) {
+			return Array.from(input_array, name => {
+				for (let x = 0; x < matrix_names.length; x++) {
+				  const y = matrix_names[x].indexOf(name);
+
+				  if (y !== -1) {
+					var preval = matrix[x][y];
+					if(reverse) { backward(); } else { forward(); }
+					return preval + ' - ';
+				  }
+				}
+
+				return name;
+			}).join('');
+		}	
+		
+		function decipher() {
+			var field_text = document.getElementById("odecipher");
+			var field_input = document.getElementById("idecipher").value;
+			field_text.innerText = "Starting Encryption";
+			control_disable();
+			///////////////////////////////////////////////////////////////////////////////////////
+			
+			field_input = field_input.toLowerCase();
+			field_input = field_input.replace(/[^a-z1-3\s-]/g, '');
+			field_input = field_input.replace(/\s*-\s*/g, ' - ');
+			field_input = field_input.replace(/(?<!^)\s*(?=[1-3][a-z])/g, ' ');
+						
+			const array = field_input.trim().split(/\s*-\s*/);
+			final_solution = get_decipher_string(array);
+			
+			///////////////////////////////////////////////////////////////////////////////////////
+			field_text.innerText = "Finished! - " + final_solution;
+			control_enable();
+		}
+		
+		function encipher() {
+			var field_text = document.getElementById("oencipher");
+			field_text.innerText = "Starting Encryption";
+			var field_input = document.getElementById("iencipher").value;
+			control_disable();
+			///////////////////////////////////////////////////////////////////////////////////////
+			var final_solution = "";
+			final_solution = get_position_matrix_or_letter(field_input);
+		
+			///////////////////////////////////////////////////////////////////////////////////////
+			field_text.innerText = "Finished! - " + final_solution;
+			control_enable();
+		}
+		
+		function control_enable() {
+			var disable_el = document.querySelectorAll("button, input");
+			disable_el.forEach(element => { 
+				element.disabled = false;
+			});				
+		
+		}
+		
+		function control_disable() {
+			var disable_el = document.querySelectorAll("button, input");
+			disable_el.forEach(element => { 
+				element.disabled = true;
+			});				
+		}
+		
+		function sync_matrix_values() {
+			matrix[1][1] = document.querySelector("#r1c1 input").value;
+			matrix[1][4] = document.querySelector("#r1c4 input").value;
+			matrix[1][7] = document.querySelector("#r1c7 input").value;
+
+			matrix[2][2] = document.querySelector("#r2c2 input").value;
+			matrix[2][4] = document.querySelector("#r2c4 input").value;
+			matrix[2][6] = document.querySelector("#r2c6 input").value;
+			
+			matrix[3][3] = document.querySelector("#r3c3 input").value;
+			matrix[3][4] = document.querySelector("#r3c4 input").value;
+			matrix[3][5] = document.querySelector("#r3c5 input").value;
+			
+			matrix[4][1] = document.querySelector("#r4c1 input").value;
+			matrix[4][2] = document.querySelector("#r4c2 input").value;
+			matrix[4][3] = document.querySelector("#r4c3 input").value;
+			matrix[4][4] = document.querySelector("#r4c4 input").value;
+			matrix[4][5] = document.querySelector("#r4c5 input").value;
+			matrix[4][6] = document.querySelector("#r4c6 input").value;
+			matrix[4][7] = document.querySelector("#r4c7 input").value;
+			
+			matrix[5][3] = document.querySelector("#r5c3 input").value;
+			matrix[5][4] = document.querySelector("#r5c4 input").value;
+			matrix[5][5] = document.querySelector("#r5c5 input").value;
+			
+			matrix[6][2] = document.querySelector("#r6c2 input").value;
+			matrix[6][4] = document.querySelector("#r6c4 input").value;
+			matrix[6][6] = document.querySelector("#r6c6 input").value;
+			
+			matrix[7][1] = document.querySelector("#r7c1 input").value;
+			matrix[7][4] = document.querySelector("#r7c4 input").value;
+			matrix[7][7] = document.querySelector("#r7c7 input").value;
+		}
+		
+		function draw_matrix_values() {
+			document.querySelector("#r1c1 input").value= matrix[1][1];
+			document.querySelector("#r1c4 input").value= matrix[1][4];
+			document.querySelector("#r1c7 input").value= matrix[1][7];
+		
+			document.querySelector("#r2c2 input").value= matrix[2][2];
+			document.querySelector("#r2c4 input").value= matrix[2][4];
+			document.querySelector("#r2c6 input").value= matrix[2][6];
+				
+			document.querySelector("#r3c3 input").value= matrix[3][3];
+			document.querySelector("#r3c4 input").value= matrix[3][4];
+			document.querySelector("#r3c5 input").value= matrix[3][5];
+				
+			document.querySelector("#r4c1 input").value= matrix[4][1];
+			document.querySelector("#r4c2 input").value= matrix[4][2];
+			document.querySelector("#r4c3 input").value= matrix[4][3];
+			document.querySelector("#r4c4 input").value= matrix[4][4];
+			document.querySelector("#r4c5 input").value= matrix[4][5];
+			document.querySelector("#r4c6 input").value= matrix[4][6];
+			document.querySelector("#r4c7 input").value= matrix[4][7];
+			
+			document.querySelector("#r5c3 input").value= matrix[5][3];
+			document.querySelector("#r5c4 input").value= matrix[5][4];
+			document.querySelector("#r5c5 input").value= matrix[5][5];
+				
+			document.querySelector("#r6c2 input").value= matrix[6][2];
+			document.querySelector("#r6c4 input").value= matrix[6][4];
+			document.querySelector("#r6c6 input").value= matrix[6][6];
+				
+			document.querySelector("#r7c1 input").value= matrix[7][1];
+			document.querySelector("#r7c4 input").value= matrix[7][4];
+			document.querySelector("#r7c7 input").value= matrix[7][7];
+		}
+		
+		function backward() {
+			sync_matrix_values();
+
+			var matrix_temp = [
+				[0,0,0,0,0,0,0,0],
+				[0,  matrix[1][1],0,0,matrix[1][4],0,0,matrix[1][7]],
+				[0,  0,matrix[2][2],0,matrix[2][4],0,matrix[2][6],0],
+				[0,  0,0,matrix[3][3],matrix[3][4],matrix[3][5],0,0],
+				[0,  matrix[4][1],matrix[4][2],matrix[4][3],0,matrix[4][5],matrix[4][6],matrix[4][7]],
+				[0,  0,0,matrix[5][3],matrix[5][4],matrix[5][5],0,0],
+				[0,  0,matrix[6][2],0,matrix[6][4],0,matrix[6][6],0],
+				[0,  matrix[7][1],0,0,matrix[7][4],0,0,matrix[7][7]],
+			];				
+			
+			matrix_temp = [
+				[0,0,0,0,0,0,0,0],
+				[0,  matrix[1][4]	,0				,0				,matrix[1][7]	,0				,0				,matrix[4][7]],
+				[0,  0				,matrix[2][4]	,0				,matrix[2][6]	,0				,matrix[4][6]	,0],
+				[0,  0				,0				,matrix[3][4]	,matrix[3][5]	,matrix[4][5]	,0				,0],
+				[0,  matrix[1][1]	,matrix[2][2]	,matrix[3][3]	,0				,matrix[5][5]	,matrix[6][6]	,matrix[7][7]],
+				[0,  0				,0				,matrix[4][3]	,matrix[5][3]	,matrix[5][4]	,0				,0],
+				[0,  0				,matrix[4][2]	,0				,matrix[6][2]	,0				,matrix[6][4]	,0],
+				[0,  matrix[4][1]	,0				,0				,matrix[7][1]	,0				,0				,matrix[7][4]],
+			];
+					
+			matrix = matrix_temp;
+			draw_matrix_values();
+		}
+
+		function forward() {
+			sync_matrix_values();
+
+			var matrix_temp = [
+				[0,0,0,0,0,0,0,0],
+				[0,  matrix[1][1],0,0,matrix[1][4],0,0,matrix[1][7]],
+				[0,  0,matrix[2][2],0,matrix[2][4],0,matrix[2][6],0],
+				[0,  0,0,matrix[3][3],matrix[3][4],matrix[3][5],0,0],
+				[0,  matrix[4][1],matrix[4][2],matrix[4][3],0,matrix[4][5],matrix[4][6],matrix[4][7]],
+				[0,  0,0,matrix[5][3],matrix[5][4],matrix[5][5],0,0],
+				[0,  0,matrix[6][2],0,matrix[6][4],0,matrix[6][6],0],
+				[0,  matrix[7][1],0,0,matrix[7][4],0,0,matrix[7][7]],
+			];			
+		
+			matrix_temp = [
+				[0,0,0,0,0,0,0,0],
+				[0,  matrix[4][1]	,0				,0				,matrix[1][1]	,0				,0				,matrix[1][4]],
+				[0,  0				,matrix[4][2]	,0				,matrix[2][2]	,0				,matrix[2][4]	,0],
+				[0,  0				,0				,matrix[4][3]	,matrix[3][3]	,matrix[3][4]	,0				,0],
+				[0,  matrix[7][1]	,matrix[6][2]	,matrix[5][3]	,0				,matrix[3][5]	,matrix[2][6]	,matrix[1][7]],
+				[0,  0				,0				,matrix[5][4]	,matrix[5][5]	,matrix[4][5]	,0				,0],
+				[0,  0				,matrix[6][4]	,0				,matrix[6][6]	,0				,matrix[4][6]	,0],
+				[0,  matrix[7][4]	,0				,0				,matrix[7][7]	,0				,0				,matrix[4][7]],
+			];	
+				
+			matrix = matrix_temp;
+			draw_matrix_values();
+		}
+
+		function reverse_now() {
+			console.log("Check Input Change Checkbox");
+			if(!reverse) { reverse = true; }
+			else { reverse = false; }
+		}
+		
+		function fill() {
+			matrix = [
+				[0,0,0,0,0,0,0,0],
+				[0,"A",0,0,"B",0,0,"C"],
+				[0,0,"G",0,"H",0,"I",0],
+				[0,0,0,"N","O","P",0,0],
+				[0,"U","V","W",0,"X","Y","Z"],
+				[0,0,0,"R","S","T",0,0],
+				[0,0,"K",0,"L",0,"M",0],
+				[0,"D",0,0,"E",0,0,"F"],
+			];		
+			draw_matrix_values();
+		}
+		
+		function reset() {
+			matrix = [
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+				["","","","","","","",""],
+			];		
+			draw_matrix_values();
+		}
+		
+		fill();
+		
+	</script>
+
+</body>
+</html>

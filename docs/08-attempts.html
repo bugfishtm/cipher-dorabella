@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What I tried &middot; Dorabella</title>
+<meta name="description" content="Every attempt, in the order I made it — what it was, what came back, and whether it was worth the time.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="./favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="08-attempts.html">
+<div class="mbar">
+  <button class="navtoggle" id="navtoggle" type="button" aria-expanded="false" aria-controls="side">&#9776; menu</button>
+  <span class="cur">[08] What I tried</span>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contents">
+  <button class="navtoggle navclose" id="navclose" type="button">&times; close</button>
+  <div class="brand"><a href="index.html">
+    <div class="t">DORABELLA</div><div class="s">cipher &middot; 1897 &middot; open case</div></a></div>
+  <ol class="navlist">
+    <li><a href="index.html"><span class="n">00</span><span>The investigation</span></a></li>
+    <li class="grp">Background &mdash; what I read</li>
+    <li><a href="01-note.html"><span class="n">01</span><span>The note</span></a></li>
+    <li><a href="02-elgar.html"><span class="n">02</span><span>Edward Elgar</span></a></li>
+    <li><a href="03-other-ciphers.html"><span class="n">03</span><span>His other ciphers</span></a></li>
+    <li><a href="04-record.html"><span class="n">04</span><span>The published record</span></a></li>
+    <li class="grp">Investigation &mdash; what I did</li>
+    <li><a href="05-transcription.html"><span class="n">05</span><span>My transcription</span></a></li>
+    <li><a href="06-snowflake.html"><span class="n">06</span><span>The snowflake key</span></a></li>
+    <li><a href="07-measurements.html"><span class="n">07</span><span>Measurements</span></a></li>
+    <li><a href="08-attempts.html"><span class="n">08</span><span>What I tried</span><span class="star">&#9733;</span></a></li>
+    <li><a href="09-hunt.html"><span class="n">09</span><span>The long hunt</span></a></li>
+    <li><a href="10-verdict.html"><span class="n">10</span><span>What cipher is it</span></a></li>
+    <li><a href="11-next.html"><span class="n">11</span><span>What to do next</span></a></li>
+    <li class="grp">Reference</li>
+    <li><a href="12-sources.html"><span class="n">12</span><span>Sources &amp; gallery</span></a></li>
+    <li><a href="13-workbench.html"><span class="n">13</span><span>Workbench</span></a></li>
+  </ol>
+  <div class="sidefoot" id="sidestat"></div>
+  <div class="sidelegal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a><a href="https://github.com/bugfishtm/cipher-dorabella">GitHub</a></div>
+</aside>
+<main class="main">
+<div class="phead"><div class="wrap">
+  <div class="crumb"><span class="sec">[08]</span> &middot; INVESTIGATION</div>
+  <h1>What I tried</h1>
+  <p class="lede">Every attempt, in the order I made it &mdash; what it was, what came back, and whether it was worth the time.</p>
+</div></div>
+<div class="wrap">
+<div class="panel">
+  <h3>Scorecard</h3>
+  <div class="readout">
+    <div class="cell"><span class="k">attempts</span><span class="v">50</span><span class="ref">in seven phases</span></div>
+    <div class="cell"><span class="k">worth it</span><span class="v ok">24</span><span class="ref">result or trust</span></div>
+    <div class="cell"><span class="k">dead end</span><span class="v bad">4</span><span class="ref">tested, failed</span></div>
+    <div class="cell"><span class="k">lesson</span><span class="v" style="color:var(--cy)">12</span><span class="ref">went wrong usefully</span></div>
+    <div class="cell"><span class="k">open</span><span class="v warn">4</span><span class="ref">not finished</span></div>
+    <div class="cell"><span class="k">not done</span><span class="v">6</span><span class="ref">on purpose</span></div>
+  </div>
+  <div class="legend">
+    <span><span class="pill ok">worth it</span> produced a result I would defend, or made later results trustworthy</span>
+    <span><span class="pill ko">dead end</span> tested and failed, or could never have worked</span>
+    <span><span class="pill lesson">lesson</span> went wrong in a way that changed how everything after it was done</span>
+    <span><span class="pill open">open</span> not finished &mdash; still a live lead</span>
+    <span><span class="pill skip">not done</span> left out deliberately, with the reason</span>
+  </div>
+  <p class="hint" style="margin-top:10px">In the order I did it, over a few days in late August 2026. Phases:
+  <a href="#p1">1 the idea</a> &middot; <a href="#p2">2 transcription</a> &middot; <a href="#lab">3 the lab</a> &middot;
+  <a href="#p4">4 Elgar's drawings</a> &middot; <a href="#p5">5 the toolkit</a> &middot; <a href="#p6">6 language
+  models</a> &middot; <a href="#p7">7 the long hunt</a> &middot; <a href="#nd">not done</a>.</p>
+</div>
+
+<div class="grid2">
+  <div class="panel" style="border-color:#86D65F44">
+    <h3 style="color:var(--ok)">Worth the time</h3>
+    <ol>
+      <li><b>Transcribing it myself and validating it</b> &mdash; 82/87 against a published reading, p &lt; 5&times;10&#8315;&#8309;.
+        Everything else stands on this.</li>
+      <li><b>The orientation &chi;&sup2;</b> &mdash; one key-free number that killed my own first idea (p = 0.0003).</li>
+      <li><b>Matching solver effort on both sides</b> &mdash; the difference between a false retraction and z = &minus;7.5.</li>
+      <li><b>Reading the literature</b> &mdash; Hauer (2021) and Wase (2023) had already shown the plain-substitution result.</li>
+      <li><b>Measuring the instrument before widening the search</b> &mdash; the bake-off and N* showed the language model
+        mattered more than the search size.</li>
+      <li><b>Cross-checks and planted messages</b> &mdash; they are what make a negative result mean something.</li>
+    </ol>
+  </div>
+  <div class="panel" style="border-color:#FF6B5E44">
+    <h3 style="color:var(--bad)">Not worth the time</h3>
+    <ol>
+      <li><b>Deciphering by hand under a regularly turning key</b> &mdash; the direction counts rule it out without any key.</li>
+      <li><b>Running the solver at unmatched effort</b> &mdash; it produced one false alarm and one false retraction.</li>
+      <li><b>Tiny hand-written language models</b> &mdash; they can rank languages, never decide one.</li>
+      <li><b>Compressed English in a large search</b> &mdash; past about 414 candidates, coincidence wins.</li>
+      <li><b>Worrying which side of the cup names the direction</b> &mdash; every convention is a relabelling.</li>
+      <li><b>Generic technical English as the target</b> for what would be a personal letter.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="panel" id="p1" style="margin-top:14px">
+  <h3>Phase 1 &middot; The idea</h3>
+  <div class="hyp live"><h4><span class="id">1.1</span> A snowflake key that turns &mdash; <code>snowflake.html</code> <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> built a one-page tool &mdash; the 24 cells as a snowflake around a hub, an A&ndash;X fill without J and
+    Q, and a key that turns one arm forward or backward after every letter, for enciphering and deciphering.</p>
+    <p><b>Gave:</b> the frame for the whole project. The glyph set really is a polar grid (Elgar drew it that way), and
+    every later tool is this page generalised. <a href="06-snowflake.html">[06]</a></p></div>
+  <div class="hyp dead"><h4><span class="id">1.2</span> Deciphering the note by hand under the turning key <span class="pill ko">dead end</span></h4>
+    <p><b>Did:</b> in the draw.io diagram, deciphered all three lines turning forward and turning backward, key restarted
+    at each line.</p>
+    <div class="out">YDIA WGXF RHCL TWID GVYF ZMRP IOXB M   (forward)
+YAKD WIWC RYDY TOKF GHVC ZKPN IXWU M   (backward)</div>
+    <p><b>Gave:</b> gibberish both ways &mdash; and the later engine reproduces both blocks letter for letter, so it was
+    not a slip. It could never have worked: a regular turn forces flat direction counts, and Dorabella's are not flat
+    (3.2).</p></div>
+</div>
+
+<div class="panel" id="p2">
+  <h3>Phase 2 &middot; Transcription</h3>
+  <div class="hyp live"><h4><span class="id">2.1</span> Transcribing the note myself, glyph by glyph <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> read all 87 glyphs off the note in draw.io as <code>arcs+direction</code>, with the row lengths 29 /
+    31 / 27 fixed.</p>
+    <p><b>Gave:</b> a transcription that agrees with a published 1:1 reading at 82 of 87 positions with zero letter
+    collisions; a shuffled null averages 28.7 and never reaches 82 in 20,000 tries. <a href="05-transcription.html#validation">[05]</a></p></div>
+  <div class="hyp live"><h4><span class="id">2.2</span> Flagging nine ambiguous glyphs instead of guessing <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> wrote both options wherever I could not decide &mdash; <code>(2ne/e)</code> &mdash; then scored all
+    2&#8313; = 512 combinations for best 1:1 fit.</p>
+    <p><b>Gave:</b> the resolved reading (82/87, up from 79/87 for the first-pass choices) and uncertainty that is on
+    the record rather than hidden.</p></div>
+  <div class="hyp lesson"><h4><span class="id">2.3</span> The &ldquo;corrected&rdquo; reading <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> took five further re-reads from the published solution itself, which brings agreement to 87/87.</p>
+    <p><b>Learned:</b> that is circular by construction. It is kept, labelled, and never used to test the solution it
+    came from.</p></div>
+  <div class="hyp lesson"><h4><span class="id">2.4</span> &ldquo;Side open or side closed?&rdquo; <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> worried in the diagram about whether a glyph's direction is named by its open side or its closed
+    side.</p>
+    <p><b>Learned:</b> it does not matter. Every naming convention is a global relabelling; all 16 offset &times; mirror
+    variants give bit-identical statistics, and the solver absorbs the rest. It matters only for drawing the glyphs.</p></div>
+  <div class="hyp live"><h4><span class="id">2.5</span> &ldquo;Line by line or complete? Reversed?&rdquo; <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> tested whether the line breaks are structural, and later proved the search covers both readings.</p>
+    <p><b>Gave:</b> the breaks look like hand-wrapping (boundary pairs are ordinary ones, p = 0.023, weak), and
+    <code>rowcheck.py</code> shows all 2,460 one-string streams sit inside the 9,835 the three-row engine enumerates.
+    Every reading order &mdash; reversed included &mdash; is searched.</p></div>
+</div>
+
+<div class="panel" id="lab">
+  <h3>Phase 3 &middot; The Python lab</h3>
+  <div class="hyp live"><h4><span class="id">3.1</span> Key-free structure tests against real English <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> measured index of coincidence, entropy, distinct symbols, doubles and repeated n-grams on Dorabella and
+    on 400 English samples of 87 letters.</p>
+    <p><b>Gave:</b> Dorabella sits inside the English range on every one (12th&ndash;74th percentile) and its frequency
+    profile fits English at the 30th percentile. The popular claim that its statistics are anomalous does not survive
+    calibration. <a href="07-measurements.html">[07]</a></p></div>
+  <div class="hyp live"><h4><span class="id">3.2</span> The orientation &chi;&sup2;, with a 40,000-run Monte Carlo <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> counted the eight directions (<code>10 8 9 16 15 3 4 22</code>) and simulated 40,000 rotating-key
+    ciphertexts of English.</p>
+    <p><b>Gave:</b> &chi;&sup2; = 26.6, p = 0.0003 &mdash; a regular rotating key is ruled out, with no key, solver or
+    corpus involved. The single most robust number in the project, and it killed my starting idea.</p></div>
+  <div class="hyp open"><h4><span class="id">3.3</span> Mirrored 180&deg; pairs <span class="pill open">open</span></h4>
+    <p><b>Did:</b> counted consecutive same-ring glyphs facing opposite ways.</p>
+    <p><b>Gave:</b> 10 against 5.2 by chance (p = 0.03). No cipher model I simulated reproduces it (3.11) &mdash; the
+    most interesting single number in the analysis, and unexplained.</p></div>
+  <div class="hyp lesson"><h4><span class="id">3.4</span> Attack, run 1 &mdash; 20 restarts, 30 controls <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> annealed a substitution on Dorabella and on 30 true-English ciphertexts, 20 restarts each.</p>
+    <p><b>Learned:</b> Dorabella fell below every control &mdash; it looked decisive, but the minimum of 30 samples is
+    not a stable statistic; the English left tail is long.</p></div>
+  <div class="hyp lesson"><h4><span class="id">3.5</span> Attack, run 2 &mdash; 500 restarts against a 30-restart baseline <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> gave the seven best transforms 500 restarts, but the 100-sample English baseline only 30.</p>
+    <p><b>Learned:</b> unsound in two directions at once &mdash; the baseline was under-solved (its floor dragged down to
+    &minus;4.900) while Dorabella was over-solved. It landed &ldquo;inside the range, about the 6th percentile&rdquo;
+    and I retracted run 1. The retraction was wrong.</p></div>
+  <div class="hyp live"><h4><span class="id">3.6</span> Attack, run 3 &mdash; matched effort <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> 100 restarts &times; 12,000 iterations on both sides, 40 English controls.</p>
+    <p><b>Gave:</b> every reading order at the 0th percentile, z between &minus;7.5 and &minus;9.6, while the solver
+    recovers a median 87/87 letters on the controls. <b>A plain substitution of English is excluded</b> &mdash; the
+    number to quote, and the same conclusion as Wase (2023).</p></div>
+  <div class="hyp dead"><h4><span class="id">3.7</span> Every reading order &times; every regular rotation <span class="pill ko">dead end</span></h4>
+    <p><b>Did:</b> solved 6 reading orders, 7 rotation schedules &times; 7 step sizes, and reversed-then-derotated
+    variants (<code>hypotheses.py</code>).</p>
+    <p><b>Gave:</b> nothing that reads. Expected after 3.2, and now measured.</p></div>
+  <div class="hyp live"><h4><span class="id">3.8</span> Cribs &mdash; DORABELLA and friends <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> a crib tester that checks whether a word's letter-repetition pattern can sit at a position before any
+    solving, then solves with it locked.</p>
+    <p><b>Gave:</b> a cheap, hard filter. <code>DORABELLA</code> (repetition pattern 012345663 &mdash; the double L, the
+    returning A) fits nowhere in the as-written reading, nor in any of the other six reading orders under a static key
+    &mdash; ruled out before a solver runs. No crib-based reading is recorded.</p></div>
+  <div class="hyp lesson"><h4><span class="id">3.9</span> Six small language models <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> bigram models for English, German, French, Italian, Latin and Spanish from about 1.7&nbsp;KB of
+    hand-written prose each (34&ndash;48% bigram coverage).</p>
+    <p><b>Learned:</b> they rank candidates, they cannot decide one. They happened to put Latin first and English second
+    &mdash; Hauer et&nbsp;al., with 100M characters per language, put Latin first too &mdash; a coincidence worth
+    checking, not a result. It led to the proper German model (6.2).</p></div>
+  <div class="hyp live"><h4><span class="id">3.10</span> Periodic IC and Kasiski <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> coset IC for periods 1&ndash;22 against 400 shuffles each, and Kasiski spacings.</p>
+    <p><b>Gave:</b> no period is elevated &mdash; no repeating key of length 2&ndash;22.</p></div>
+  <div class="hyp live"><h4><span class="id">3.11</span> Nine cipher models, simulated and compared <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> simulated nine mechanisms an 1897 amateur could use, 320 runs each, and asked where Dorabella falls in
+    each one's own output on five diagnostics.</p>
+    <p><b>Gave:</b> plain English substitution 4.7%, regular rotating key, Wheatstone cryptograph and hoax 0.0%. The top
+    four tie on evidence and are ordered only by my priors &mdash; and the mirrored-pair count sits outside all nine.
+    <a href="10-verdict.html">[10]</a></p></div>
+</div>
+
+<div class="panel" id="p4">
+  <h3>Phase 4 &middot; Elgar's own drawings</h3>
+  <div class="hyp live"><h4><span class="id">4.1</span> The notebook messages <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> worked through the 1920s notebook page and wrote the plaintext in: MARCO ELGAR, A VERY OLD CYPHER, DO
+    YOU GO TO LONDON (TOMORROW?).</p>
+    <p><b>Gave:</b> the only known plaintext in his alphabet. It reads straight off with the key on the page &mdash; the
+    alphabet is not the secret. <a href="03-other-ciphers.html">[03]</a></p></div>
+  <div class="hyp live"><h4><span class="id">4.2</span> The clock-face circles, and my overlay <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> studied the notebook's circle diagrams (M1&ndash;M4) and traced the glyph shapes into one of
+    them.</p>
+    <p><b>Gave:</b> the polar-key reading &mdash; radius = arcs, angle = direction &mdash; grounded in Elgar's own
+    drawings rather than imposed on them.</p></div>
+  <div class="hyp dead"><h4><span class="id">4.3</span> Compass roses <span class="pill ko">dead end</span></h4>
+    <p><b>Did:</b> looked at 8-, 16- and 32-point compass cards as a model for the eight directions.</p>
+    <p><b>Gave:</b> a good picture for the idea, but an analogy, not evidence: nothing testable came out of it that the
+    clock-face diagrams do not already give.</p></div>
+  <div class="hyp open"><h4><span class="id">4.4</span> The Crystal Palace fragment (1886) <span class="pill open">open</span></h4>
+    <p><b>Did:</b> collected the programme page and cropped the marginal glyphs.</p>
+    <p><b>Gave:</b> not attacked yet. Eighteen characters in the same alphabet, eleven years earlier &mdash; if one key
+    fails on both texts, that is evidence about the key.</p></div>
+</div>
+
+<div class="panel" id="p5">
+  <h3>Phase 5 &middot; The browser toolkit</h3>
+  <div class="hyp live"><h4><span class="id">5.1</span> Nine offline pages on one shared engine <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> rewrote the snowflake as a general polar-key engine (<code>core.js</code>) shared by every page, with
+    <code>core.test.js</code>: 4,049 assertions, 3,360 encipher/decipher round-trips across the whole symmetry group. No
+    server, no build step needed to use it, works from <code>file://</code>.</p>
+    <p><b>Gave:</b> tools that cannot drift from each other. On its own the toolkit found nothing new &mdash; its value is
+    that everything the lab claims can be replayed in a browser.</p></div>
+  <div class="hyp live"><h4><span class="id">5.2</span> Decipher in phases, with a two-stage key hunt <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> transcribe &rarr; sequence &rarr; unwind the key motion &rarr; substitute &rarr; score against a
+    calibrated baseline &rarr; hunt; the hunt hashes identical streams (a measured 50&ndash;56% saving) and re-solves only
+    the leaders at full effort.</p>
+    <p><b>Gave:</b> every step inspectable, and the rotation space swept at browser scale. No reading came out of it.</p></div>
+  <div class="hyp live"><h4><span class="id">5.3</span> Reproducibility recipes <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> a recipe format with a deterministic Level 1 &mdash; ciphertext + reading order + key motion + 24-cell
+    key gives the plaintext by arithmetic &mdash; and a stochastic Level 2 that re-runs the annealer from its seed.</p>
+    <p><b>Gave:</b> a claim that fails Level 1 is not a solution, whatever it scores; one altered key cell fails loudly
+    with the divergence index. Anyone's claim can be pasted in and checked.</p></div>
+  <div class="hyp live"><h4><span class="id">5.4</span> The transposition bench &mdash; stated rules only <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> columnar, double columnar, rail fence, five routes and the turning grille as exact permutations you
+    <i>apply</i>, plus a one-pass sweep of the fixed catalogue as a screen.</p>
+    <p><b>Gave:</b> a guard as much as a tool: it refuses to <i>search</i> for a rearrangement, because at 87 characters
+    that manufactures English by chance.</p></div>
+  <div class="hyp open"><h4><span class="id">5.5</span> String experiments &mdash; undo the mirrored pairs, split at the dot <span class="pill open">open</span></h4>
+    <p><b>Did:</b> a page to chain rearrangements (reverse, swap adjacent pairs, split at the dot, decimate, halves&hellip;)
+    and unwind a moving key <i>after</i> them, with a leaderboard that states how many chains were tried.</p>
+    <p><b>Gave:</b> the presets with real motivation &mdash; a mirrored pair as a unit written in the wrong order, the dot
+    as the only punctuation &mdash; are still the most principled untested ideas. No result from them is recorded.</p></div>
+  <div class="hyp lesson"><h4><span class="id">5.6</span> Continuous auto-solve with a bandit rule <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> a sweep meant to be left running, choosing which candidate to re-solve with a bandit rule.</p>
+    <p><b>Learned:</b> it fixated &mdash; 267 of 319 rounds on one candidate. &ldquo;Best score so far&rdquo; only rises
+    with more rounds, so the bandit rewarded whatever had been pulled most. Replaced by successive halving with equal
+    budgets.</p></div>
+  <div class="hyp live"><h4><span class="id">5.7</span> Templates and saved investigations <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> a template to assert plaintext at positions, and a session file holding transcription, transform, key,
+    template and the solver's work.</p>
+    <p><b>Gave:</b> a guess becomes a test: pinning a right guess costs little score, a wrong one costs a lot.</p></div>
+</div>
+
+<div class="panel" id="p6">
+  <h3>Phase 6 &middot; Better language models</h3>
+  <div class="hyp lesson"><h4><span class="id">6.1</span> English from technical text <span class="pill lesson">lesson</span></h4>
+    <p><b>Did:</b> built the first English n-gram model from Python docstrings and package docs blended with
+    hand-written prose.</p>
+    <p><b>Learned:</b> its letter frequencies are about 11 points off standard English, mostly H and W; a Victorian
+    personal note could be under-scored. It stayed for the matched-effort result (which it passes: controls solve to
+    87/87) but was replaced as the default target.</p></div>
+  <div class="hyp live"><h4><span class="id">6.2</span> A real German model, with held-out controls <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> a 3+4-gram model over 2.5 M letters of 19th-century prose (Werther, Effi Briest, Buddenbrooks, Die
+    Verwandlung, Zarathustra, Faust&nbsp;I), with controls from a held-out 15%.</p>
+    <p><b>Gave:</b> German on an equal footing with English. Held-out mattered: in-corpus controls read 0.43 SD too
+    high, which would have made every candidate look worse. On German text it separates at 11.3 noise-SD.</p></div>
+  <div class="hyp live"><h4><span class="id">6.3</span> Period correspondence, and the model bake-off <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> a 3 M-letter corpus of period letters (Carroll, Dickens, George Eliot, Darwin, Austen, Keats, plus
+    model letters, a letter-writing manual and merchant correspondence), filtered to sentences that read like letters,
+    and a bake-off: the same plaintext judged by each model.</p>
+    <p><b>Gave:</b> at this search size the bar is 5.8 noise-SD. Generic English <b>misses</b> it for a personal letter
+    (4.7) and business letters (4.1); the correspondence model clears both (8.0, 7.7). The earlier searches could not
+    have detected the message in either register.</p></div>
+  <div class="hyp dead"><h4><span class="id">6.4</span> Compressed English as a shorthand proxy <span class="pill ko">dead end</span></h4>
+    <p><b>Did:</b> a vowel-reduced English model to test the private-shorthand hypothesis.</p>
+    <p><b>Gave:</b> a correct answer beats noise by only 0.135 (separation +0.12), so past about <b>414</b> candidates
+    coincidence wins. Useless in a large search; dropped from the defaults, kept for small targeted runs.</p></div>
+  <div class="hyp live"><h4><span class="id">6.5</span> The search budget N* <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> measured, per language, how many candidates a search can test before its best coincidence outscores a
+    genuine solution.</p>
+    <p><b>Gave:</b> N* &asymp; 1.2&times;10&sup1;&#8310; for English and German. At the full 326 M candidates the truth
+    still wins by 0.57 &mdash; so the long hunt is worth running, and a positive English or German result would mean
+    something. <a href="09-hunt.html#odds">[09]</a></p></div>
+</div>
+
+<div class="panel" id="p7">
+  <h3>Phase 7 &middot; The long hunt</h3>
+  <div class="hyp open"><h4><span class="id">7.1</span> <code>dorabella_hunt.py</code> &mdash; a months-long search <span class="pill open">open</span></h4>
+    <p><b>Did:</b> a single-file, stdlib-only server search over 15 cipher families and about 108 million candidates,
+    with checkpoints, a live dashboard and a verdict built on a permutation null, best-of-N and &Scaron;id&aacute;k.</p>
+    <p><b>Gave:</b> an honest instrument that is slow on purpose: the whole space is about 2.5 years on four cores, and
+    it samples every family in turn rather than finishing one. No solution is recorded; the expectation, written into its
+    manual, is &ldquo;almost certainly nothing&rdquo;. <a href="09-hunt.html">[09]</a></p></div>
+  <div class="hyp lesson"><h4><span class="id">7.2</span> Proportional scheduling <span class="pill lesson">lesson</span></h4>
+    <p><b>Learned:</b> scheduling families by fraction explored sounds fair and is not &mdash; the snowflake family took
+    798 of the first 800 slots and decimation never ran. Replaced by round-robin.</p></div>
+  <div class="hyp lesson"><h4><span class="id">7.3</span> Short streams judged against long controls <span class="pill lesson">lesson</span></h4>
+    <p><b>Learned:</b> the null-removal family halves the text; judged against 87-character controls it swept the
+    leaderboard at z = +3.07 on the first live run, purely because 43 characters score higher than 87. Calibration is now
+    built per length.</p></div>
+  <div class="hyp lesson"><h4><span class="id">7.4</span> Deepened leaders judged against a cheap baseline <span class="pill lesson">lesson</span></h4>
+    <p><b>Learned:</b> the hunt once reported &ldquo;solution&rdquo; for English <i>and</i> German at the same time
+    &mdash; definitionally impossible. Leaders re-solved at twelve times the effort were still judged against a one-times
+    baseline. Calibration now matches language, length, restarts <i>and</i> iterations.</p></div>
+  <div class="hyp lesson"><h4><span class="id">7.5</span> How much effort per candidate <span class="pill lesson">lesson</span></h4>
+    <p><b>Learned:</b> the thin survey (8 &times; 4,000) recovers a median 8% of letters on planted English; the deepened
+    pass (96 &times; 8,000) recovers 95%. Effort is two numbers, not one: cutting iterations from 6,000 to 4,000 cost 19
+    points of recovery even at 96 restarts.</p></div>
+  <div class="hyp lesson"><h4><span class="id">7.6</span> A process that looked dead, a page that showed nothing <span class="pill lesson">lesson</span></h4>
+    <p><b>Learned:</b> the status file was written from the result loop, so a long deepening pass looked exactly like a
+    dead process &mdash; it now ticks on its own thread. And <code>mkstemp</code> leaves files 0600, so the dashboard
+    (running as <code>www-data</code>) showed nothing while the hunt worked perfectly &mdash; it now chmods 0644.</p></div>
+  <div class="hyp live"><h4><span class="id">7.7</span> Cross-checking the server engine against the browser's <span class="pill ok">worth it</span></h4>
+    <p><b>Did:</b> ran the Python hand-port and <code>core.js</code> over the same transforms and compared the unwound
+    streams cell by cell.</p>
+    <p><b>Gave:</b> <b>4,107 transforms, identical</b> &mdash; so anything the server finds can be reproduced in the
+    browser decipher tool.</p></div>
+  <div class="hyp live"><h4><span class="id">7.8</span> Planted messages for the new disc families <span class="pill ok">worth it</span></h4>
+    <p><b>Gave:</b> ringspin, keyspin and autokey each recover a planted message at 100% &mdash; proof the families are
+    genuinely searchable, not just enumerated. <a href="06-snowflake.html">[06]</a></p></div>
+  <div class="hyp live" id="words-attempt"><h4><span class="id">7.9</span> Word watch, with the chance figure beside it <span class="pill ok">worth it</span></h4>
+    <p><b>Gave:</b> watching for ELGAR, DORA, MUSIC&hellip; turns up hits whether or not anything is there. A test run
+    over 96 candidates found <code>AND</code> twice where chance alone predicts 4.23 &mdash; a ratio of 0.47&times;.
+    Printing the chance figure is what keeps the eye honest.</p></div>
+  <div class="hyp live"><h4><span class="id">7.10</span> Crash safety &mdash; the kill -9 test <span class="pill ok">worth it</span></h4>
+    <p><b>Gave:</b> after a hard kill mid-run, the restart carried all prior work, reused 34 baselines, and kept 25 leaders
+    and the whole ledger. A search meant to run for months has to survive a power cut.</p></div>
+</div>
+
+<div class="panel" id="nd">
+  <h3>Deliberately not done</h3>
+  <div class="hyp skip"><h4><span class="id">N.1</span> A joint substitution + transposition search <span class="pill skip">not done</span></h4>
+    <p>At 87 characters a search free to choose both will produce English-looking output by chance. A
+    &ldquo;solution&rdquo; found that way would not be evidence of anything &mdash; so none of my tools offers one.</p></div>
+  <div class="hyp skip"><h4><span class="id">N.2</span> Playfair <span class="pill skip">not done</span></h4>
+    <p>Needs an even length, and 87 is odd. A single null fixes that, so the nulls family covers the case anyway.</p></div>
+  <div class="hyp skip"><h4><span class="id">N.3</span> Bifid and Nihilist <span class="pill skip">not done</span></h4>
+    <p>Delastelle published in 1895 &mdash; too fresh and too fiddly for a note to a friend.</p></div>
+  <div class="hyp skip"><h4><span class="id">N.4</span> Book ciphers and machines <span class="pill skip">not done</span></h4>
+    <p>A book cipher is unfalsifiable without the book; anything needing a machine is out of reach of a musician at a
+    desk in 1897.</p></div>
+  <div class="hyp skip"><h4><span class="id">N.5</span> More than four interleaved alphabets <span class="pill skip">not done</span></h4>
+    <p>More than four leaves under 20 letters per alphabet at this length, which is unsolvable in principle. The engine
+    refuses rather than pretending. Small numbers of alphabets are covered by the snowflake schedules.</p></div>
+  <div class="hyp skip"><h4><span class="id">N.6</span> Testing fixed relabellings <span class="pill skip">not done</span></h4>
+    <p>A different grid fill, a once-off rotation, &ldquo;orientation is the letter and arcs are a modifier&rdquo;
+    &mdash; the substitution solver absorbs all of them, so testing them would be wasted search.</p></div>
+</div>
+<div class="pagenav"><a href="07-measurements.html"><span class="lbl">&larr; 07</span>Measurements</a><a href="09-hunt.html" style="text-align:right"><span class="lbl">09 &rarr;</span>The long hunt</a></div>
+</div>
+<footer class="foot"><div class="wrap">
+  <span>Dorabella cipher investigation &middot; bugfish &middot; <a href="https://github.com/bugfishtm/cipher-dorabella">source on GitHub</a></span>
+  <span class="legal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a></span>
+</div></footer>
+</main>
+</div>
+<script src="assets/data.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/app.js"></script>
+</body></html>

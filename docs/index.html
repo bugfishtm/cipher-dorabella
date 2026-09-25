@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Dorabella cipher &middot; an investigation</title>
+<meta name="description" content="What I read about Elgar’s 1897 cipher, what I built to attack it, and what came out — every claim with the test behind it.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="./favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="index.html">
+<div class="mbar">
+  <button class="navtoggle" id="navtoggle" type="button" aria-expanded="false" aria-controls="side">&#9776; menu</button>
+  <span class="cur">[00] The investigation</span>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contents">
+  <button class="navtoggle navclose" id="navclose" type="button">&times; close</button>
+  <div class="brand"><a href="index.html">
+    <div class="t">DORABELLA</div><div class="s">cipher &middot; 1897 &middot; open case</div></a></div>
+  <ol class="navlist">
+    <li><a href="index.html"><span class="n">00</span><span>The investigation</span></a></li>
+    <li class="grp">Background &mdash; what I read</li>
+    <li><a href="01-note.html"><span class="n">01</span><span>The note</span></a></li>
+    <li><a href="02-elgar.html"><span class="n">02</span><span>Edward Elgar</span></a></li>
+    <li><a href="03-other-ciphers.html"><span class="n">03</span><span>His other ciphers</span></a></li>
+    <li><a href="04-record.html"><span class="n">04</span><span>The published record</span></a></li>
+    <li class="grp">Investigation &mdash; what I did</li>
+    <li><a href="05-transcription.html"><span class="n">05</span><span>My transcription</span></a></li>
+    <li><a href="06-snowflake.html"><span class="n">06</span><span>The snowflake key</span></a></li>
+    <li><a href="07-measurements.html"><span class="n">07</span><span>Measurements</span></a></li>
+    <li><a href="08-attempts.html"><span class="n">08</span><span>What I tried</span><span class="star">&#9733;</span></a></li>
+    <li><a href="09-hunt.html"><span class="n">09</span><span>The long hunt</span></a></li>
+    <li><a href="10-verdict.html"><span class="n">10</span><span>What cipher is it</span></a></li>
+    <li><a href="11-next.html"><span class="n">11</span><span>What to do next</span></a></li>
+    <li class="grp">Reference</li>
+    <li><a href="12-sources.html"><span class="n">12</span><span>Sources &amp; gallery</span></a></li>
+    <li><a href="13-workbench.html"><span class="n">13</span><span>Workbench</span></a></li>
+  </ol>
+  <div class="sidefoot" id="sidestat"></div>
+  <div class="sidelegal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a><a href="https://github.com/bugfishtm/cipher-dorabella">GitHub</a></div>
+</aside>
+<main class="main">
+<div class="phead"><div class="wrap">
+  <div class="crumb"><span class="sec">DORABELLA</span> &middot; UNSOLVED SINCE 1897</div>
+  <h1>The investigation</h1>
+  <p class="lede">What I read about Elgar&rsquo;s 1897 cipher, what I built to attack it, and what came out &mdash; every claim with the test behind it.</p>
+</div></div>
+<div class="wrap">
+<div class="panel">
+  <h3>Case status</h3>
+  <div class="readout">
+    <div class="cell"><span class="k">state</span><span class="v bad">UNSOLVED</span><span class="ref">since 14 July 1897</span></div>
+    <div class="cell"><span class="k">glyphs</span><span class="v">87</span><span class="ref">29 / 31 / 27</span></div>
+    <div class="cell"><span class="k">distinct</span><span class="v">20</span><span class="ref">of 24 possible</span></div>
+    <div class="cell"><span class="k">orientation &chi;&sup2;</span><span class="v bad">26.6</span><span class="ref">p = 0.0003</span></div>
+    <div class="cell"><span class="k">best z vs English</span><span class="v bad">&minus;7.5</span><span class="ref">real English &asymp; 0</span></div>
+    <div class="cell"><span class="k">hunt space</span><span class="v">108M</span><span class="ref">candidates, 15 families</span></div>
+  </div>
+  <p class="hint">Every number on this site is either computed live in your browser from my transcription, or was
+  produced by my own scripts (the Python lab, the browser toolkit and the server hunt) and is quoted with the test
+  behind it. Background facts come from the sources listed in <a href="12-sources.html">[12]</a>.</p>
+</div>
+
+<div class="panel">
+  <h3>The argument in six lines</h3>
+  <div class="tight">
+  <p><b>1.</b> Elgar's alphabet is 24 glyphs &mdash; one, two or three arcs facing one of eight directions. His own
+  1920s notebook draws it on a <b>clock face</b>: radius for the number of arcs, angle for the direction. My
+  snowflake grid is the same object, so the key is a polar diagram.</p>
+  <p><b>2.</b> I transcribed the note myself, glyph by glyph, and flagged nine glyphs I could not decide. The
+  resolved reading agrees with a published 1:1 reading at <span class="num">82/87</span> with zero letter
+  collisions &mdash; a shuffled null averages 28.7, <span class="num">p &lt; 5&times;10&#8315;&#8309;</span>. The
+  transcription is sound.</p>
+  <p><b>3.</b> My first idea &mdash; a key that turns one step per glyph &mdash; is dead. A 45&deg; turn keeps the
+  ring, so a regular rotation forces the eight direction counts towards 10.9 each whatever the key. Dorabella's
+  are <span class="num">10 8 9 16 15 3 4 22</span>: &chi;&sup2; = 26.6, and 40,000 simulated rotating ciphertexts
+  give <span class="num">p = 0.0003</span>. No key, no solver, no corpus needed.</p>
+  <p><b>4.</b> It <b>looks</b> like language: index of coincidence, entropy, doubled glyphs, repeated bigrams and
+  the letter-frequency profile all sit inside the range of 87 letters of real English.</p>
+  <p><b>5.</b> But it does not <b>read</b> like English. Solved at the same effort as 40 real-English controls, every
+  reading order lands <span class="num">7.5 to 9.6</span> standard deviations below them &mdash; while the same
+  solver recovers a median 87 of 87 letters on the controls. Hauer et&nbsp;al. (2021) and Wase (2023) reached the
+  same conclusion independently.</p>
+  <p><b>6.</b> English frequencies with non-English order is the fingerprint of a <b>second layer</b> (a
+  rearrangement, or a key that moves irregularly) or of a plaintext that is <b>not ordinary English</b>. I built a
+  long-running search for the first branch that is designed to say &ldquo;nothing&rdquo; loudly rather than
+  &ldquo;solution&rdquo; softly. Nothing I have run has produced a reading.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>What this is</h3>
+  <p>In late August 2026 I spent a few intense days on the Dorabella cipher. It started as a hunch &mdash; the 24
+  glyphs are eight directions times three sizes, so perhaps the key is a snowflake that turns while you write &mdash;
+  and grew into my own transcription, a Python research lab, a browser toolkit, and a server search built to run for
+  months. Along the way I read everything I could find about Elgar, his other ciphers, and every published attempt.</p>
+  <p>This site keeps all of it, sorted: <b>what I read</b>, <b>what I did</b>, and &mdash; on its own page &mdash;
+  <a href="08-attempts.html"><b>every attempt with an honest verdict on whether it was worth the time</b></a>.</p>
+</div>
+
+<h3 class="grouphd">Background &mdash; what I read</h3>
+<div class="cards">
+<a class="card" href="01-note.html"><div class="n">[01]</div><h3>The note</h3><p>The 1897 document, its 24-symbol alphabet, and what is actually known about it.</p></a>
+<a class="card" href="02-elgar.html"><div class="n">[02]</div><h3>Edward Elgar</h3><p>The self-taught outsider, his circle, and a lifetime of private jokes in names and music.</p></a>
+<a class="card" href="03-other-ciphers.html"><div class="n">[03]</div><h3>His other ciphers</h3><p>The Liszt fragment, the Nihilist challenge, the cards and the notebook &mdash; what Elgar demonstrably knew.</p></a>
+<a class="card" href="04-record.html"><div class="n">[04]</div><h3>The published record</h3><p>Every proposed solution, the computational studies, and why none of the claims has stuck.</p></a>
+</div>
+
+<h3 class="grouphd">Investigation &mdash; what I did</h3>
+<div class="cards">
+<a class="card" href="05-transcription.html"><div class="n">[05]</div><h3>My transcription</h3><p>87 glyphs read by hand, nine ambiguities flagged, validated against a published reading.</p></a>
+<a class="card" href="06-snowflake.html"><div class="n">[06]</div><h3>The snowflake key</h3><p>My starting idea: a polar key that turns as you write &mdash; and the symmetry group it opens up.</p></a>
+<a class="card" href="07-measurements.html"><div class="n">[07]</div><h3>Measurements</h3><p>Key-free statistics computed live, each with the control that makes it mean something.</p></a>
+<a class="card hot" href="08-attempts.html"><div class="n">[08] &#9733;</div><h3>What I tried</h3><p>Every attempt in order &mdash; what it was, what came back, and whether it was worth it.</p></a>
+<a class="card" href="09-hunt.html"><div class="n">[09]</div><h3>The long hunt</h3><p>A 108-million-candidate server search, and the statistics that stop it fooling itself.</p></a>
+<a class="card" href="10-verdict.html"><div class="n">[10]</div><h3>What cipher is it</h3><p>Nine mechanisms simulated and ranked &mdash; and the one number none of them explains.</p></a>
+<a class="card" href="11-next.html"><div class="n">[11]</div><h3>What to do next</h3><p>Falsification tests, genuinely open leads, and the honest caveats.</p></a>
+</div>
+
+<h3 class="grouphd">Reference</h3>
+<div class="cards">
+<a class="card" href="12-sources.html"><div class="n">[12]</div><h3>Sources &amp; gallery</h3><p>Everything I read, the scans and images with their licences, and my own working images.</p></a>
+<a class="card" href="13-workbench.html"><div class="n">[13]</div><h3>Workbench</h3><p>Encipher, decipher and crib-test in the browser &mdash; plus my full toolkit with the solvers.</p></a>
+</div>
+
+<div class="panel" style="margin-top:16px">
+  <h3>What is in this project</h3>
+  <dl class="kv">
+    <dt>site</dt><dd>this investigation, one page per section</dd>
+    <dt>transcription</dt><dd>my own, with its nine ambiguities and three readings &mdash; <a href="05-transcription.html">[05]</a></dd>
+    <dt>lab</dt><dd>the Python scripts behind the statistics: structure tests, annealing solver, calibration, model comparison &mdash; results in <a href="07-measurements.html">[07]</a> and <a href="08-attempts.html">[08]</a></dd>
+    <dt>toolkit</dt><dd>my browser tools &mdash; encipher, a seven-phase decipher with solver and key hunt, a transposition bench, string experiments &mdash; <a href="13-workbench.html">[13]</a></dd>
+    <dt>hunt</dt><dd>a stdlib-only Python search built to run for months, with a live dashboard &mdash; <a href="09-hunt.html">[09]</a></dd>
+    <dt>sources</dt><dd>papers, articles, scans and Commons images, each attributed &mdash; <a href="12-sources.html">[12]</a></dd>
+  </dl>
+</div>
+<div class="pagenav"><span></span><a href="01-note.html" style="text-align:right"><span class="lbl">01 &rarr;</span>The note</a></div>
+</div>
+<footer class="foot"><div class="wrap">
+  <span>Dorabella cipher investigation &middot; bugfish &middot; <a href="https://github.com/bugfishtm/cipher-dorabella">source on GitHub</a></span>
+  <span class="legal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a></span>
+</div></footer>
+</main>
+</div>
+<script src="assets/data.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/app.js"></script>
+</body></html>

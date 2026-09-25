@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The long hunt &middot; Dorabella</title>
+<meta name="description" content="A 108-million-candidate server search, and the statistics that stop it fooling itself.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="./favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="09-hunt.html">
+<div class="mbar">
+  <button class="navtoggle" id="navtoggle" type="button" aria-expanded="false" aria-controls="side">&#9776; menu</button>
+  <span class="cur">[09] The long hunt</span>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contents">
+  <button class="navtoggle navclose" id="navclose" type="button">&times; close</button>
+  <div class="brand"><a href="index.html">
+    <div class="t">DORABELLA</div><div class="s">cipher &middot; 1897 &middot; open case</div></a></div>
+  <ol class="navlist">
+    <li><a href="index.html"><span class="n">00</span><span>The investigation</span></a></li>
+    <li class="grp">Background &mdash; what I read</li>
+    <li><a href="01-note.html"><span class="n">01</span><span>The note</span></a></li>
+    <li><a href="02-elgar.html"><span class="n">02</span><span>Edward Elgar</span></a></li>
+    <li><a href="03-other-ciphers.html"><span class="n">03</span><span>His other ciphers</span></a></li>
+    <li><a href="04-record.html"><span class="n">04</span><span>The published record</span></a></li>
+    <li class="grp">Investigation &mdash; what I did</li>
+    <li><a href="05-transcription.html"><span class="n">05</span><span>My transcription</span></a></li>
+    <li><a href="06-snowflake.html"><span class="n">06</span><span>The snowflake key</span></a></li>
+    <li><a href="07-measurements.html"><span class="n">07</span><span>Measurements</span></a></li>
+    <li><a href="08-attempts.html"><span class="n">08</span><span>What I tried</span><span class="star">&#9733;</span></a></li>
+    <li><a href="09-hunt.html"><span class="n">09</span><span>The long hunt</span></a></li>
+    <li><a href="10-verdict.html"><span class="n">10</span><span>What cipher is it</span></a></li>
+    <li><a href="11-next.html"><span class="n">11</span><span>What to do next</span></a></li>
+    <li class="grp">Reference</li>
+    <li><a href="12-sources.html"><span class="n">12</span><span>Sources &amp; gallery</span></a></li>
+    <li><a href="13-workbench.html"><span class="n">13</span><span>Workbench</span></a></li>
+  </ol>
+  <div class="sidefoot" id="sidestat"></div>
+  <div class="sidelegal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a><a href="https://github.com/bugfishtm/cipher-dorabella">GitHub</a></div>
+</aside>
+<main class="main">
+<div class="phead"><div class="wrap">
+  <div class="crumb"><span class="sec">[09]</span> &middot; INVESTIGATION</div>
+  <h1>The long hunt</h1>
+  <p class="lede">A 108-million-candidate server search, and the statistics that stop it fooling itself.</p>
+</div></div>
+<div class="wrap">
+<div class="panel">
+  <p class="lead">A long-running cipher search over the systems Elgar could plausibly have used in July 1897, with the
+  statistics needed to tell a real result from the best of a very large number of lottery tickets. One Python file, no
+  dependencies, built to be started and left alone for weeks: it checkpoints, resumes exactly, bounds its own memory,
+  and writes a status file every 30 seconds for a live dashboard.</p>
+  <div class="readout">
+    <div class="cell"><span class="k">families</span><span class="v">15</span><span class="ref">cipher hypotheses</span></div>
+    <div class="cell"><span class="k">candidates</span><span class="v">108M</span><span class="ref">108,080,995</span></div>
+    <div class="cell"><span class="k">targets</span><span class="v sm">letters + German</span><span class="ref">English, shorthand opt-in</span></div>
+    <div class="cell"><span class="k">throughput</span><span class="v">0.34</span><span class="ref">candidates / s / core</span></div>
+    <div class="cell"><span class="k">whole space</span><span class="v">~2.5 y</span><span class="ref">on 4 cores</span></div>
+    <div class="cell"><span class="k">engine check</span><span class="v ok">4,107</span><span class="ref">transforms = browser</span></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Which ciphers, and why those</h3>
+  <p>The constraint that does the most work is the date and the medium: a short personal note written by hand in 1897
+  by a musician, not a cryptographer, for a friend who was expected to read it. That rules out anything needing tables,
+  machines or bookkeeping.</p>
+  <p><b>Always present: substitution.</b> Every candidate is solved with a simulated annealer over the 24-symbols
+  &rarr; letters map. A substitution solver absorbs any fixed relabelling &mdash; a different grid fill, a once-off
+  rotation of the whole alphabet, &ldquo;the orientation is the letter and the arc count is a modifier&rdquo; are all
+  the <i>same cipher</i> to it. That is what makes the space finite instead of astronomical.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>family</th><th>what it is</th><th>why it is plausible in 1897</th></tr></thead>
+    <tbody>
+    <tr><td class="mono">order</td><td>the seven ways of taking the glyphs off the page: forwards, reversed, each line reversed, boustrophedon, lines 3-2-1, by columns, spiral</td><td>costs nothing to do and nothing to undo</td></tr>
+    <tr><td class="mono">snowflake</td><td>a key that <b>turns as you write</b> &mdash; 7 reading orders &times; 10 advance schedules &times; 7 step sizes &times; 2 directions &times; 9 mirror axes &times; 6 ring permutations &times; 2 ring periods</td><td>trivial with a paper disc, and the 3 rings &times; 8 directions symbol set <i>is</i> a clock face</td></tr>
+    <tr><td class="mono">ringspin</td><td>the three rings turn at <b>different rates</b> &mdash; one notch inner, three outer</td><td>what concentric rings are <i>for</i>; Alberti's disc had two and they moved independently</td></tr>
+    <tr><td class="mono">keyspin</td><td>the amount of turn <b>cycles through a keyword</b> written as numbers</td><td>a Vigen&egrave;re on the disc &mdash; the most likely thing a literate amateur would do</td></tr>
+    <tr><td class="mono">autokey</td><td>the turn is dictated by the <b>symbol just decoded</b></td><td>self-keying: no written key to lose or be found, and trivial by hand</td></tr>
+    <tr><td class="mono">railfence</td><td>zigzag over 2&ndash;12 rails, read row by row</td><td>a schoolboy cipher, in every puzzle book</td></tr>
+    <tr><td class="mono">columnar</td><td>write in rows, read columns in a keyword's order &mdash; every key of every width 2&ndash;9 (409,112 keys)</td><td>the most widely used hand transposition of the century</td></tr>
+    <tr><td class="mono">columnar2</td><td>the same twice with different keys &mdash; widths 2&ndash;6 on each side (760,384 pairs)</td><td>the standard way of making a columnar hard</td></tr>
+    <tr><td class="mono">route</td><td>write into a rectangle, read along a spiral or diagonal</td><td>used in the American Civil War, well known by 1897</td></tr>
+    <tr><td class="mono">grille</td><td>turning grille (Fleissner) &mdash; a card with holes, turned four times; sizes 10 and 12, 250,000 cards each</td><td>in print since 1881, a parlour favourite</td></tr>
+    <tr><td class="mono">decimate</td><td>take every <i>n</i>-th symbol, wrapping</td><td>what a grille does, without the card</td></tr>
+    <tr><td class="mono">grid</td><td>write into a rectangle and read it out &mdash; 87 = 3 &times; 29 exactly</td><td>the first thing anyone would try with a three-line note</td></tr>
+    <tr><td class="mono">nulls</td><td>some marks carry nothing: drop every <i>k</i>-th, or a head or tail</td><td>the oldest trick there is</td></tr>
+    <tr><td class="mono">composite</td><td>a transposition <b>followed by</b> a rotating key</td><td>the one combination a hand-worker could manage, and the one a solver cannot undo in either order alone</td></tr>
+    <tr><td class="mono">composite2</td><td>a transposition applied twice with different rules</td><td>cheap by hand, and it defeats a single-stage undo</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="box"><h4>Languages</h4><p>Period correspondence and German by default; plain English and
+      &ldquo;compressed English&rdquo; (a vowel-reduced proxy for the shorthand hypothesis) are opt-in. Each has its
+      <b>own model and its own control texts</b>; raw scores are never compared across them. German is a full 3+4-gram
+      model over 2.5 M letters of 19th-century prose, with controls from a held-out 15%.</p></div>
+    <div class="box"><h4>Deliberately not implemented</h4><p><b>Playfair</b> needs an even length and 87 is odd (one
+      null fixes that, so the nulls family covers it). <b>Bifid / Nihilist</b>: Delastelle published in 1895, too fresh
+      and fiddly. <b>Book ciphers</b>: unfalsifiable without the book. <b>Anything needing a machine.</b> And more than
+      four interleaved alphabets leaves under 20 letters per alphabet &mdash; unsolvable in principle, so the engine
+      refuses; small <i>k</i> is covered by the snowflake schedules.</p></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>How a long brute-force is done properly</h3>
+  <div class="ev"><div class="k">01</div><div><h4>Indexed space, not a list</h4><p>Every candidate has an integer address
+    decoded arithmetically. A space of 10&#8313; costs no memory and &ldquo;resume at 431,905,772&rdquo; is exact.</p></div></div>
+  <div class="ev"><div class="k">02</div><div><h4>Round-robin over families</h4><p>One candidate from each family in
+    turn. Proportional scheduling sounds fairer and is not: the snowflake family is 105,840 of 107,217 candidates, so it
+    was permanently the least explored by fraction and took 798 of the first 800 slots while <code>decimate</code> was
+    never touched. Round-robin gives every hypothesis immediate coverage; small families finish within minutes and the
+    large one inherits the rest of the run.</p></div></div>
+  <div class="ev"><div class="k">03</div><div><h4>Dedupe by stream</h4><p>Different settings routinely produce the
+    identical symbol stream &mdash; about 44% of the rotation space collapses. Each stream is hashed and solved once;
+    past a memory cap it degrades to re-solving duplicates rather than dying.</p></div></div>
+  <div class="ev"><div class="k">04</div><div><h4>Work is parallel, state is not</h4><p>Workers solve; the parent owns
+    the cursors, the leaderboard and the checkpoint. One writer means a <code>kill -9</code> can lose the last interval,
+    never corrupt the state. Status and checkpoint are written to a temp file and atomically renamed into place.</p></div></div>
+  <div class="ev"><div class="k">05</div><div><h4>The status file ticks on its own clock</h4><p>A daemon thread writes it
+    regardless of what the search is doing &mdash; found the hard way, when a long deepening pass looked from outside
+    exactly like a dead process.</p></div></div>
+  <div class="ev"><div class="k">06</div><div><h4>Survey cheap, then deepen</h4><p>Coverage is the scarce resource, so
+    the survey is deliberately thin and the deepening pass carries the quality. Measured letter recovery on a planted
+    English message:</p>
+    <div class="scroll"><table style="max-width:440px"><thead><tr><th>effort</th><th>recovery</th></tr></thead><tbody>
+      <tr><td class="mono">8 &times; 4,000 (survey)</td><td>median 8%, spread 1&ndash;91%</td></tr>
+      <tr><td class="mono">96 &times; 8,000 (deepened)</td><td>median <b>95%</b>, spread 95&ndash;97%</td></tr>
+    </tbody></table></div>
+    <p><b>Effort is two numbers, not one.</b> Restarts buy independent attempts; iterations buy a slower cooling
+    schedule, and no number of short badly-cooled runs substitutes for one well-cooled one &mdash; dropping the survey
+    from 6,000 to 4,000 iterations cost 19 points of deepened recovery even at 96 restarts. The deepening pass raises
+    both, and the baseline is matched on both.</p></div></div>
+  <div class="ev"><div class="k">07</div><div><h4>The run never ends</h4><p>When the enumeration is exhausted the hunt
+    drops to a <code>refine</code> phase and goes on deepening the leaders and re-checking the verdict for as long as the
+    process lives. A search that stops has stopped improving.</p></div></div>
+  <div class="ev"><div class="k">08</div><div><h4>Graceful death</h4><p>SIGTERM and SIGINT checkpoint and exit
+    cleanly. The process writes its own pid (a launcher capturing <code>$!</code> from <code>setsid nohup &hellip;
+    &amp;</code> records the wrong one whenever setsid forks), and the run script treats a status file that is still
+    advancing as proof of life.</p></div></div>
+  <div class="ev"><div class="k">09</div><div><h4>The engine is verified against the browser's</h4><p>The server
+    contains a hand port of <code>core.js</code>, and a hand port is exactly the code that looks right and quietly
+    searches a different space. <code>lab/crosscheck.py</code> compares the unwound streams cell by cell: <b>4,107
+    transforms, identical</b> &mdash; every reading order, schedule, step, direction, mirror axis, ring permutation and
+    period. Anything the server finds can be reproduced in the browser decipher tool.</p></div></div>
+</div>
+
+<div class="panel">
+  <h3>Never trust the maximum</h3>
+  <p>The best of a million candidates is a large number even when nothing is there. Three corrections are applied, and
+  every one was added because its absence produced a false positive during development.</p>
+  <div class="hyp lesson"><h4>Matched baseline</h4>
+    <p>A score is compared only against controls of the same <b>language</b>, <b>length</b>, <b>restarts</b> and
+    <b>iterations</b>. The last two were added after the hunt reported <code>solution</code> for English <i>and</i>
+    German at once &mdash; the deepening pass had re-solved leaders at twelve times the effort while they were still
+    judged against a one-times baseline. Length is the one people forget: an n-gram score is a per-gram mean, and
+    shorter text is easier to fit. The nulls family halves the text &mdash; judged against 87-character controls it
+    swept the leaderboard at z = +3.07 on the first live run. Calibration is now built per length, on demand.</p></div>
+  <div class="hyp lesson"><h4>Permutation null</h4>
+    <p>The winning stream is <b>shuffled</b> and re-solved at the same effort &mdash; same symbols, same frequencies,
+    same length, no linguistic order. That is what the solver squeezes out of noise, and it is what best-of-N is applied
+    to.</p>
+    <p class="note-warn">An easy thing to get backwards: the <i>control texts</i> are the <b>alternative</b> hypothesis
+    (what a correct answer scores), not the null. A true solve of 87 characters lands in the <b>middle</b> of the control
+    range, z &asymp; 0 &mdash; not at the top. Testing against best-of-N of the controls would reject a correct
+    answer.</p></div>
+  <div class="hyp lesson"><h4>Best-of-N, and &Scaron;id&aacute;k on top</h4>
+    <p>The null's tail is fitted with a normal, so P(max &lt; x) = &Phi;((x&minus;&mu;)/&sigma;)<sup>n</sup> &mdash; an
+    empirical resample cannot extrapolate past its own largest observation, and best-of-a-million lives well past it.
+    Then &Scaron;id&aacute;k charges for the number of <i>languages</i> tried: p<sub>family</sub> = 1 &minus;
+    (1 &minus; p)<sup>L</sup>. Running three languages is three lottery tickets.</p></div>
+  <h4>Reading the verdict &mdash; a claim needs both conditions</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>verdict</th><th>meaning</th></tr></thead>
+    <tbody>
+    <tr><td><span class="pill ok">solution</span></td><td><b>Above chance</b> (beats the shuffled null after paying for every candidate and every language) <b>and reads</b> (inside the range real text of that language reaches, z &gt; &minus;2). The only verdict that is a decipherment.</td></tr>
+    <tr><td><span class="pill open">structure, but not this language</span></td><td>Above chance, does not read. The solver found non-random structure and dressed it in letters &mdash; a finding about the stream, not a message. <b>The commonest false positive in this subject.</b></td></tr>
+    <tr><td><span class="pill open">in range, but not above chance</span></td><td>Reads, but shuffling gets there too. The fit is a property of the model, not evidence.</td></tr>
+    <tr><td><span class="pill skip">nothing</span></td><td>Neither.</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="panel" id="odds">
+  <h3>The instrument has to suit the message</h3>
+  <p><code>lab/bakeoff.py</code> asks the question that decides whether the search can work at all: <b>at this search
+  size, could the model detect the message if it were there?</b> Every candidate raises the score the winner must reach;
+  at 108 M candidates &times; 2 languages the best-of-N bar is <b>5.8 noise-SD</b>. Detection power, giving each model
+  the same plaintext and comparing it against its own noise floor:</p>
+  <div class="scroll"><table style="max-width:620px">
+    <thead><tr><th>if the plaintext is&hellip;</th><th class="n">English</th><th class="n">correspondence</th><th class="n">bar</th></tr></thead>
+    <tbody>
+    <tr><td>a personal letter</td><td class="n" style="color:var(--bad)">4.7 &#10007;</td><td class="n" style="color:var(--ok)"><b>8.0 &#10003;</b></td><td class="n">5.8</td></tr>
+    <tr><td>business correspondence</td><td class="n" style="color:var(--bad)">4.1 &#10007;</td><td class="n" style="color:var(--ok)"><b>7.7 &#10003;</b></td><td class="n">5.8</td></tr>
+    <tr><td>technical prose</td><td class="n" style="color:var(--ok)">7.5 &#10003;</td><td class="n" style="color:var(--ok)">7.0 &#10003;</td><td class="n">5.8</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Generic English misses the bar for both registers Dorabella could plausibly be.</b> The search was structurally
+  unable to detect the message even if it were sitting in the space &mdash; not because the space was too small, but
+  because the instrument was wrong for the register. Widening the search would have made this worse. So the default
+  target became <code>let</code>: a 3 M-letter corpus of period correspondence (Carroll's letters of 1898, Dickens,
+  George Eliot, Darwin, Austen, Keats, plus model letters, a letter-writing manual and merchant correspondence), filtered
+  to the sentences that read like letters, with controls held out.</p>
+
+  <h4>The search budget beyond which nothing can be believed</h4>
+  <p><code>lab/odds.py</code>: for each language there is a budget <b>N*</b> beyond which the best coincidence outscores
+  a genuine solution.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>language</th><th class="n">correct answer</th><th class="n">noise</th><th class="n">gap</th><th class="n">N*</th></tr></thead>
+    <tbody>
+    <tr><td>English</td><td class="n">&minus;3.994</td><td class="n">&minus;5.084</td><td class="n"><b>+1.09</b></td><td class="n">1.2 &times; 10&sup1;&#8310;</td></tr>
+    <tr><td>German</td><td class="n">&minus;3.857</td><td class="n">&minus;4.989</td><td class="n"><b>+1.13</b></td><td class="n">1.2 &times; 10&sup1;&#8310;</td></tr>
+    <tr><td>compressed English</td><td class="n">&minus;3.634</td><td class="n">&minus;3.769</td><td class="n">+0.135</td><td class="n" style="color:var(--bad)"><b>414</b></td></tr>
+    </tbody>
+  </table></div>
+  <p>At the project's full search size &mdash; 108 M candidates &times; 3 languages = 326 M &mdash; the best-of-N null
+  reaches &minus;4.566 for English against a correct answer's &minus;3.994. <b>The truth still wins by 0.57</b>, so the
+  search is worth running and a positive English or German result would mean something. For compressed English it does
+  not: past about 414 candidates the coincidence wins, and it charges the other languages a &Scaron;id&aacute;k penalty
+  for the privilege. That is why it is not a default target.</p>
+  <div class="scroll"><table style="max-width:480px">
+    <thead><tr><th>language</th><th class="n">real vs shuffled separation</th><th>power</th></tr></thead>
+    <tbody>
+    <tr><td>English</td><td class="n">+0.83</td><td>strong</td></tr>
+    <tr><td>German</td><td class="n">+0.91</td><td>strong</td></tr>
+    <tr><td>compressed English</td><td class="n">+0.12</td><td><b>weak</b> &mdash; treat what it produces with more suspicion, not less</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="panel" id="words">
+  <h3>Watching for words</h3>
+  <p>The hunt can be started with a list of words &mdash; <code>./run.sh words ELGAR,DORA,MUSIC,DEAR</code> &mdash; and
+  lists every plaintext containing one, with the position and the transform. <b>Beside the count is the number chance
+  alone supplies</b>, and that is the point. A live example from testing:</p>
+  <div class="term"><pre>hits 2   expected 4.23   ratio 0.47x   over 96 candidates</pre></div>
+  <p>Two sightings of <code>AND</code> &mdash; <i>fewer</i> than chance gives. The count only starts to mean something
+  when it runs well above the expected figure, and even then the candidate still has to pass the verdict. The expected
+  figure assumes uniform letters, so real solver output (language-shaped) produces common words rather more often: treat
+  it as a floor, not a forecast. A positional template is deliberately <b>not</b> offered here &mdash; each transform
+  reorders the stream, so &ldquo;position 34 is D&rdquo; means a different glyph for every candidate. A word
+  transfers; a position does not.</p>
+</div>
+
+<div class="panel">
+  <h3>How long it runs</h3>
+  <div class="grid2">
+    <div class="scroll"><table>
+      <thead><tr><th>family</th><th class="n">candidates</th></tr></thead>
+      <tbody>
+      <tr><td><code>composite</code> (transposition + rotating key)</td><td class="n">105,310,800</td></tr>
+      <tr><td><code>composite2</code>, <code>columnar2</code>, <code>grille</code>, <code>columnar</code></td><td class="n">~2.7 M</td></tr>
+      <tr><td>everything else</td><td class="n">~110 k</td></tr>
+      <tr><td><b>total</b></td><td class="n"><b>108,080,995</b></td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table>
+      <thead><tr><th>workers</th><th class="n">whole space</th></tr></thead>
+      <tbody>
+      <tr><td class="mono">4</td><td class="n">~2.5 years</td></tr>
+      <tr><td class="mono">8</td><td class="n">~1.3 years</td></tr>
+      <tr><td class="mono">16</td><td class="n">~0.6 years</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p>Measured throughput is <b>0.34 candidates/s per core</b> (8 restarts, three languages, CPython; PyPy is 5&ndash;10&times;
+  faster with no changes). <b>That length is deliberate:</b> the space is larger than any single run, the hunt never
+  exits, and it takes one candidate from each family in turn &mdash; so a run that covers a fraction still covers every
+  hypothesis. To <i>finish</i> a space instead of sampling one, drop the giant family: the remaining 2,770,195
+  candidates take about <b>twelve days on eight cores</b>. Widening the transposition catalogue (columnar width 7)
+  multiplies the composite family by six.</p>
+</div>
+
+<div class="panel">
+  <h3>Running for months</h3>
+  <p><b>Memory is bounded by design.</b> The only structure that grows with the run is the dedupe cache, capped at 3 M
+  stream hashes (roughly 200&ndash;250 MB); the leaderboard, history, log and word hits are all capped too, and the
+  systemd unit sets <code>MemoryMax=4G</code>. <b>Disk:</b> the status file is rewritten every 30 seconds &mdash; about
+  86,000 atomic writes of ~20 KB a month &mdash; and the checkpoint every 5 minutes.</p>
+  <p><b>Restarts cost almost nothing.</b> Verified against a hard <code>kill -9</code> mid-run, which is what an OOM kill
+  or a power cut looks like:</p>
+  <div class="term"><div class="bar"><b>kill -9</b> then restart</div>
+<pre>restarts recorded   1
+tested              1400   (checkpoint held 512)
+total work          265s   vs 161s this run     -> prior work carried
+baselines reused    34                          -> not rebuilt
+leaders survived    25
+ledger survived     16 dimensions, 63 matrix cells</pre></div>
+  <ul>
+    <li><b>A backup checkpoint.</b> Every save moves the previous one to <code>.bak</code>; a full disk or bad sector
+      can no longer cost the whole run.</li>
+    <li><b>A space fingerprint.</b> Candidates are addressed by index, so resizing a family shifts every address after
+      it. The checkpoint carries a hash of the families, the ciphertext and the languages, and refuses to resume against
+      a different one &mdash; otherwise it would search different candidates while reporting the old coverage, wrong in
+      a way that looks right for months.</li>
+    <li><b><code>Restart=always</code>.</b> The hunt is designed never to finish, so any exit that is not a deliberate
+      stop is something going wrong.</li>
+    <li><b>States have names:</b> <code>starting</code>, <code>running</code>, <code>deepening</code>,
+      <code>verdict</code>, <code>refine</code>, <code>stopping</code> &mdash; a pause in throughput always has a visible
+      reason.</li>
+  </ul>
+  <p class="hint">The status file is written mode 0644 on purpose: <code>mkstemp()</code> creates 0600 and
+  <code>os.replace()</code> keeps it, so a hunt running as root would leave the file readable by root alone &mdash; and
+  the dashboard, running as <code>www-data</code>, would show nothing while the hunt worked perfectly.</p>
+</div>
+
+<div class="panel">
+  <h3>The dashboard</h3>
+  <p>A single page, served by a tiny stdlib server that validates the JSON before handing it over and retries once if
+  it catches a write in progress &mdash; so the page can never render half a file. It binds to localhost and is reached
+  through an SSH tunnel, or through nginx with TLS and basic auth; bound openly it would show the ciphertext, candidate
+  plaintexts and recovered keys to anyone. Five tabs, in the order a person needs them:</p>
+  <div class="scroll"><table>
+    <thead><tr><th>tab</th><th>what it shows</th></tr></thead>
+    <tbody>
+    <tr><td><b>What is this</b></td><td>For somebody arriving cold: the cipher, what the program does to it in four steps, how to read a result.</td></tr>
+    <tr><td><b>Verdict</b></td><td>The answer per language with both conditions spelled out, the best candidate and the score history.</td></tr>
+    <tr><td><b>What has been tried</b></td><td>The point of the page: every setting the search varies with how many candidates used it and the best they reached, an order &times; schedule heatmap with untried cells hatched, and a Markdown report to copy into an issue.</td></tr>
+    <tr><td><b>Leaders</b></td><td>The top candidates, with the length and effort each was judged against (a &times;6 badge marks deepened ones).</td></tr>
+    <tr><td><b>Detail</b></td><td>Progress, throughput, run metadata, the calibration table and the log.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="hint">The connection dot is the honest one: <b>live</b> when the file is fresh, amber after 75 s (probably a
+  deepening or verdict cycle, which the <code>state</code> field names), red after 150 s (probably stopped), and
+  <b>server unreachable</b> when the server itself is down. The best-score chart only ever rises, because it is a
+  maximum over everything tried &mdash; a rising line is the search working, not evidence.</p>
+</div>
+
+<details>
+  <summary>All command-line options</summary>
+  <div class="scroll"><table>
+    <thead><tr><th>option</th><th>default</th><th>what it does</th></tr></thead>
+    <tbody>
+    <tr><td class="mono">--log</td><td class="mono">/search_log.log</td><td>JSON status, rewritten every <code>--interval</code> s</td></tr>
+    <tr><td class="mono">--interval</td><td class="mono">30</td><td>seconds between status writes</td></tr>
+    <tr><td class="mono">--checkpoint</td><td class="mono">./checkpoint.json</td><td>resume state</td></tr>
+    <tr><td class="mono">--checkpoint-every</td><td class="mono">300</td><td>seconds between checkpoints</td></tr>
+    <tr><td class="mono">--workers</td><td class="mono">cores &minus; 1</td><td>solver processes</td></tr>
+    <tr><td class="mono">--restarts</td><td class="mono">8</td><td>annealing restarts per candidate per language</td></tr>
+    <tr><td class="mono">--iters</td><td class="mono">4000</td><td>annealing iterations per restart</td></tr>
+    <tr><td class="mono">--targets</td><td class="mono">let,de</td><td>period correspondence + German; <code>en</code> and <code>sh</code> are opt-in</td></tr>
+    <tr><td class="mono">--families</td><td class="mono">all</td><td>which families to search; <code>list</code> prints them with sizes and exits</td></tr>
+    <tr><td class="mono">--deepen-every</td><td class="mono">600</td><td>seconds between deepening cycles</td></tr>
+    <tr><td class="mono">--deepen-top</td><td class="mono">20</td><td>leaders eligible for deepening</td></tr>
+    <tr><td class="mono">--deepen-batch</td><td class="mono">4</td><td>leaders deepened per cycle</td></tr>
+    <tr><td class="mono">--deepen-mult</td><td class="mono">12</td><td>restart multiplier when deepening</td></tr>
+    <tr><td class="mono">--deepen-iters</td><td class="mono">2</td><td>iteration multiplier when deepening</td></tr>
+    <tr><td class="mono">--file-mode</td><td class="mono">644</td><td>octal mode for the status and checkpoint files</td></tr>
+    <tr><td class="mono">--verdict-every</td><td class="mono">900</td><td>seconds between permutation-null verdicts</td></tr>
+    <tr><td class="mono">--cal-samples</td><td class="mono">16</td><td>control texts per language per length</td></tr>
+    <tr><td class="mono">--null-samples</td><td class="mono">16</td><td>shuffles for the permutation null</td></tr>
+    <tr><td class="mono">--seen-cap</td><td class="mono">3000000</td><td>dedupe cache limit (memory bound)</td></tr>
+    <tr><td class="mono">--contains</td><td></td><td>words to watch for in the plaintext</td></tr>
+    <tr><td class="mono">--pidfile</td><td></td><td>where the process records its own pid</td></tr>
+    <tr><td class="mono">--reset</td><td></td><td>discard the checkpoint and start over</td></tr>
+    <tr><td class="mono">--selftest</td><td></td><td>verify the engine and exit</td></tr>
+    </tbody>
+  </table></div>
+</details>
+
+<div class="panel">
+  <h3>What to expect</h3>
+  <p>Almost certainly: <b>nothing</b>. Dorabella has resisted since 1897, and the work on this site has already ruled
+  out a regular rotating key, found no repeating key of period 2&ndash;22, and established that no substitution under any
+  transform tested reads as English at matched effort.</p>
+  <p>The hunt is built so that if it <i>does</i> find something it will be possible to tell &mdash; and, more
+  importantly, so that it will not fool anyone when it does not. The verdict is designed to say <code>nothing</code>
+  loudly rather than <code>solution</code> softly. If it ever reports <code>solution</code>, the status file holds the
+  family, the exact transform, the key and the plaintext: reproduce it in the browser decipher tool first, then check
+  the plaintext for anachronisms &mdash; &ldquo;DORABELLA&rdquo; itself is one, since Elgar did not use the name before
+  September 1898.</p>
+</div>
+<div class="pagenav"><a href="08-attempts.html"><span class="lbl">&larr; 08</span>What I tried</a><a href="10-verdict.html" style="text-align:right"><span class="lbl">10 &rarr;</span>What cipher is it</a></div>
+</div>
+<footer class="foot"><div class="wrap">
+  <span>Dorabella cipher investigation &middot; bugfish &middot; <a href="https://github.com/bugfishtm/cipher-dorabella">source on GitHub</a></span>
+  <span class="legal"><a href="https://bugfishtm.github.io/privacy.html">Privacy</a><a href="https://bugfishtm.github.io/impressum.html">Impressum</a></span>
+</div></footer>
+</main>
+</div>
+<script src="assets/data.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/app.js"></script>
+</body></html>

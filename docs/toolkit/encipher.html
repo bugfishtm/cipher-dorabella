@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="icon" href="../favicon.ico">
+<style>.tip:not(:hover):not(:focus) .tip-b{display:none}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dorabella — Encipher</title>
+<style>/* =====================================================================
+   DORABELLA — dark amber terminal theme
+   ===================================================================== */
+:root{
+  --bg:#0a0806; --bg2:#0d0a07;
+  --panel:#14100b; --panel2:#1b150e; --panel3:#241c12;
+  --line:#614a24; --line2:#8a6832;
+  --ink:#f2e3c9; --dim:#b3a084;
+  --accent:#ff8c1a; --accent2:#ffb653; --accent3:#c96a10;
+  --good:#7fd45a; --warn:#ffc247; --bad:#ff5c4d;
+  --mono:ui-monospace,"Cascadia Mono","JetBrains Mono",Consolas,monospace;
+  --glow:0 0 8px rgba(255,140,26,.30);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);
+     font:13px/1.55 var(--mono);
+     background-image:
+       radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255,140,26,.07), transparent 70%),
+       repeating-linear-gradient(0deg, rgba(255,140,26,.016) 0 1px, transparent 1px 3px);
+     background-attachment:fixed}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:rgba(255,140,26,.30);color:#fff}
+
+/* scrollbars */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:var(--bg2)}
+*::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
+*::-webkit-scrollbar-thumb:hover{background:var(--accent3)}
+
+header{padding:11px 18px;border-bottom:1px solid var(--line);display:flex;
+       align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;
+       background:linear-gradient(180deg,#0f0b07,#0a0806);z-index:40;
+       box-shadow:0 1px 0 rgba(255,140,26,.14)}
+header h1{margin:0;font-size:15px;letter-spacing:.5px;white-space:nowrap;
+          text-transform:uppercase;font-weight:700;text-shadow:var(--glow)}
+header h1::before{content:"▚ ";color:var(--accent)}
+header .sub{color:var(--dim);font-size:11.5px}
+nav{margin-left:auto;display:flex;gap:5px}
+nav a{display:inline-block;padding:5px 13px;border:1px solid var(--line);
+      border-radius:3px;color:var(--dim);font-size:12px;text-transform:uppercase;
+      letter-spacing:.06em}
+nav a:hover{border-color:var(--accent);color:var(--accent2);text-decoration:none;
+            box-shadow:var(--glow)}
+nav a.on{background:var(--accent);border-color:var(--accent);color:#180d02;
+         font-weight:700;box-shadow:var(--glow)}
+
+.wrap{display:grid;gap:14px;padding:14px;align-items:start;max-width:1720px;margin:0 auto}
+.wrap.two{grid-template-columns:352px minmax(0,1fr)}
+.wrap>*{min-width:0}
+.card,.out,.glyphs,textarea,select{max-width:100%}
+@media(max-width:1020px){.wrap.two{grid-template-columns:1fr}}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;
+      padding:13px;margin-bottom:14px;position:relative}
+.card>h2{margin:0 0 10px;font-size:11px;text-transform:uppercase;letter-spacing:.13em;
+         color:var(--accent);font-weight:700;display:flex;align-items:center;gap:8px}
+.card>h2::before{content:"";width:3px;height:12px;background:var(--accent);flex:none;
+                 box-shadow:var(--glow)}
+.card.phase{border-left:2px solid var(--line2)}
+.card.phase.done{border-left-color:var(--good)}
+.card.phase.stale{border-left-color:var(--warn)}
+.card.phase.busy{border-left-color:var(--accent);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+/* SCOPED. As a bare .num this rule leaked into table cells that used
+   class="num" for right-alignment, turning them into 20px inline-flex chips
+   and collapsing the whole results table. Keep it inside the heading. */
+.card>h2 .num{display:inline-flex;align-items:center;justify-content:center;
+     width:20px;height:20px;border-radius:2px;background:var(--panel3);
+     border:1px solid var(--line2);font-size:11px;color:var(--dim);
+     font-weight:700;flex:none}
+.card.phase.done>h2 .num{background:var(--good);border-color:var(--good);color:#06210a}
+.card.phase.busy>h2 .num{background:var(--accent);border-color:var(--accent);color:#180d02}
+
+label{display:block;font-size:11.5px;color:var(--dim);margin:10px 0 4px;
+      text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+select,input[type=text],input[type=number],textarea{width:100%;background:var(--bg2);
+  color:var(--ink);border:1px solid var(--line2);border-radius:3px;padding:7px 9px;
+  font-size:12.5px;font-family:var(--mono)}
+textarea{font-size:11.5px;resize:vertical;line-height:1.7}
+select:focus,textarea:focus,input:focus{outline:none;border-color:var(--accent);
+  box-shadow:var(--glow)}
+button{background:var(--panel3);color:var(--ink);border:1px solid var(--line2);
+       border-radius:3px;padding:6px 12px;font-size:11.5px;cursor:pointer;
+       margin:3px 4px 0 0;font-family:var(--mono);text-transform:uppercase;
+       letter-spacing:.06em}
+button:hover:not(:disabled){border-color:var(--accent);color:var(--accent2);
+       box-shadow:var(--glow)}
+button:disabled{opacity:.35;cursor:not-allowed}
+button.primary{background:var(--accent);border-color:var(--accent);color:#180d02;
+       font-weight:700;box-shadow:var(--glow)}
+button.primary:hover:not(:disabled){background:var(--accent2);color:#180d02}
+button.danger{border-color:#6b2a1f;color:#ffab9f}
+button.danger:hover:not(:disabled){border-color:var(--bad);color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:104px}
+.row.tight>*{flex:none;min-width:0}
+
+table.grid{border-collapse:separate;border-spacing:2px;margin:0 auto}
+table.grid td{width:36px;height:36px;padding:0;border:0}
+table.grid td.on{border:1px solid var(--line);background:var(--bg2);border-radius:2px;
+                 position:relative}
+table.grid td.on:focus-within{border-color:var(--accent);box-shadow:var(--glow)}
+table.grid td.hub{background:#2e1c08;border-color:var(--accent)}
+table.grid td.on input{width:100%;height:100%;background:none;border:0;color:var(--accent2);
+  text-align:center;font:700 15px var(--mono);text-transform:uppercase;padding:0}
+table.grid td.on input:focus{outline:none;box-shadow:none}
+table.grid td .tag{position:absolute;bottom:0;right:2px;font-size:8.5px;
+                   color:#9a7a4a;pointer-events:none}
+svg.dial{display:block;margin:0 auto}
+
+.out{font-family:var(--mono);font-size:12.5px;line-height:1.9;letter-spacing:.08em;
+     background:var(--bg2);border:1px solid var(--line);border-radius:3px;
+     padding:9px 11px;white-space:pre-wrap;word-break:break-all;min-height:36px;
+     color:var(--accent2)}
+.out.big{font-size:15px;letter-spacing:.16em;color:var(--ink)}
+.out.dim{color:var(--dim);font-size:11.5px;letter-spacing:.03em}
+.glyphs{background:var(--bg2);border:1px solid var(--line);border-radius:3px;
+        padding:8px;overflow-x:auto;color:var(--ink)}
+.glyphs svg{display:block}
+.note{font-size:12px;color:var(--dim);margin-top:8px;line-height:1.65}
+.note.warn{color:var(--warn)}
+.note b{color:var(--accent2)}
+.mono{font-family:var(--mono)}
+
+.stats{display:grid;grid-template-columns:1fr auto;gap:4px 14px;font-size:12.5px}
+.stats .k{color:var(--dim)}
+.stats .v{text-align:right;color:var(--ink)}
+.v.good{color:var(--good)} .v.bad{color:var(--bad)} .v.warn{color:var(--warn)}
+.v.hot{color:var(--accent);text-shadow:var(--glow)}
+
+.pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:3px;
+      border:1px solid var(--line2);background:var(--panel3);color:var(--ink);
+      margin:3px 5px 0 0;text-transform:uppercase;letter-spacing:.05em;
+      font-weight:700;line-height:1.35}
+.pill.on{border-color:var(--good);color:#0d1f07;background:var(--good)}
+.pill.off{border-color:var(--bad);color:#2a0a06;background:var(--bad)}
+.pill.mid{border-color:var(--warn);color:#2a1f02;background:var(--warn)}
+.pill.hot{border-color:var(--accent);color:var(--accent);box-shadow:var(--glow)}
+
+.bar{height:6px;background:var(--bg2);border-radius:2px;overflow:hidden;margin-top:5px;
+     border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent));
+       box-shadow:var(--glow);transition:width .15s}
+
+#log,.log{font-size:11px;color:var(--dim);max-height:150px;
+     overflow-y:auto;white-space:pre-wrap;background:var(--bg2);border:1px solid var(--line);
+     border-radius:3px;padding:8px;margin-top:8px}
+.log .hit{color:var(--accent2)}
+
+/* tooltips */
+.tip{position:relative;display:inline-block;cursor:help;outline:none}
+.tip-i{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;
+  border-radius:2px;border:1px solid var(--line2);color:var(--dim);font-size:9px;
+  font-weight:700}
+.tip-i::before{content:"?"}
+.tip:hover .tip-i,.tip:focus .tip-i{border-color:var(--accent);color:var(--accent);
+  box-shadow:var(--glow)}
+.tip-b{visibility:hidden;opacity:0;position:absolute;left:0;top:20px;width:300px;
+  background:#0a0705;border:1px solid var(--accent);border-radius:3px;padding:9px 11px;
+  font-size:11px;line-height:1.6;color:var(--ink);z-index:200;text-transform:none;
+  letter-spacing:normal;font-weight:400;box-shadow:0 8px 26px rgba(0,0,0,.85),var(--glow);
+  transition:opacity .12s}
+.tip:hover .tip-b,.tip:focus .tip-b{visibility:visible;opacity:1}
+.tip-b b{color:var(--accent)}
+
+/* ---------- data tables ---------- */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px;
+         background:var(--bg2);margin-top:9px}
+table.rank{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+table.rank td,table.rank th{overflow:hidden;text-overflow:ellipsis}
+table.rank th{text-align:left;color:var(--accent);font-weight:700;padding:8px 9px;
+  border-bottom:2px solid var(--accent3);font-size:12px;text-transform:uppercase;
+  letter-spacing:.05em;position:sticky;top:0;background:var(--panel2);cursor:pointer;
+  user-select:none;white-space:nowrap}
+table.rank th:hover{color:var(--accent2)}
+table.rank th.sorted::after{content:" ▼";font-size:8px}
+table.rank th.sorted.asc::after{content:" ▲"}
+table.rank td{padding:7px 9px;border-bottom:1px solid var(--line);color:var(--ink)}
+table.rank tbody tr:hover td{background:var(--panel2)}
+table.rank tbody tr.pinned td{background:#241703}
+table.rank tbody tr.best td{box-shadow:inset 2px 0 0 var(--accent)}
+table.rank td.txt{letter-spacing:.04em;color:var(--accent2);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+table.rank td.rnum,table.rank th.rnum{text-align:right}
+table.rank .go{cursor:pointer;color:var(--accent);border:1px solid var(--line2);
+  padding:3px 8px;border-radius:3px;font-size:11px;font-weight:700;
+  display:inline-block}
+table.rank .go:hover{background:var(--accent);color:#180d02}
+
+/* ---------- live view ---------- */
+.live{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:760px){.live{grid-template-columns:1fr}}
+.livebox{background:var(--bg2);border:1px solid var(--line);border-radius:3px;padding:10px}
+.livebox h4{margin:0 0 7px;font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--dim);font-weight:700}
+.spec{display:flex;flex-wrap:wrap;gap:5px}
+.spec span{font-size:10px;padding:2px 7px;border:1px solid var(--line2);border-radius:2px;
+  color:var(--dim)}
+.spec span b{color:var(--accent2);font-weight:700}
+.scoreline{display:flex;align-items:baseline;gap:10px;margin-top:4px}
+.scoreline .big{font-size:22px;font-weight:700;color:var(--accent);text-shadow:var(--glow)}
+.scoreline .sm{font-size:11px;color:var(--dim)}
+.spark{display:block;width:100%;height:44px}
+
+/* ---------- sweep language toggles ---------- */
+.swlang{display:inline-flex;align-items:center;gap:5px;margin:0 12px 0 0;
+  font-size:11.5px;color:var(--ink);cursor:pointer}
+.swlang input{accent-color:var(--accent);width:13px;height:13px;margin:0;cursor:pointer}
+
+/* ---------- history ---------- */
+.hist{max-height:290px;overflow-y:auto}
+.hist table{width:100%;border-collapse:collapse;font-size:10.5px}
+.hist th{position:sticky;top:0;background:var(--panel2);color:var(--accent);
+  font-size:9px;text-transform:uppercase;letter-spacing:.08em;text-align:left;
+  padding:5px 7px;border-bottom:1px solid var(--line2)}
+.hist td{padding:4px 7px;border-bottom:1px solid #241a0e;white-space:nowrap}
+.hist tr:hover td{background:var(--panel2)}
+.hist .t{color:var(--dim)}
+.hist .restore{cursor:pointer;color:var(--accent);border:1px solid var(--line2);
+  padding:1px 6px;border-radius:2px;font-size:9.5px}
+.hist .restore:hover{background:var(--accent);color:#180d02}
+.hist .empty{color:var(--dim);padding:12px;text-align:center;font-size:11px}
+
+/* section explanations */
+.exp{font-size:12.5px;line-height:1.7;color:#c8b795;margin:-2px 0 12px;
+     border-left:2px solid var(--accent3);padding:3px 0 3px 11px}
+.exp b{color:var(--accent2);font-weight:700}
+.exp i{color:var(--ink);font-style:normal}
+.exp code{font-family:var(--mono);background:var(--bg2);border:1px solid var(--line);
+     padding:0 4px;border-radius:2px;color:var(--accent2);font-size:11px}
+.exp .hdr{display:block;color:var(--accent);font-weight:700;margin-bottom:3px;
+     text-transform:uppercase;letter-spacing:.05em;font-size:11px}
+
+/* ---------- research pages ---------- */
+.prose{max-width:900px}
+.prose h3{font-size:13px;margin:26px 0 8px;color:var(--accent);text-transform:uppercase;
+  letter-spacing:.1em;font-weight:700;border-bottom:1px solid var(--line);padding-bottom:5px}
+.prose h4{font-size:12px;margin:16px 0 5px;color:var(--accent2);font-weight:700}
+.prose p{margin:9px 0;color:#cbbb9e;line-height:1.72}
+.prose ul{margin:8px 0;padding-left:19px;color:#cbbb9e}
+.prose li{margin:5px 0;line-height:1.65}
+.prose b{color:var(--ink)}
+.prose code{background:var(--bg2);border:1px solid var(--line);padding:0 4px;
+  border-radius:2px;color:var(--accent2);font-size:11.5px}
+.lead{color:var(--ink);font-size:13.5px;line-height:1.75;border-left:2px solid var(--accent);
+  padding-left:12px;margin:0 0 18px}
+
+table.facts{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0}
+table.facts th{text-align:left;color:var(--accent);font-size:12px;
+  text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:8px 9px;
+  border-bottom:2px solid var(--accent3);vertical-align:bottom;
+  background:var(--panel2)}
+table.facts td{padding:8px 9px;border-bottom:1px solid var(--line);
+  vertical-align:top;color:#d8c8a8;line-height:1.6;font-size:12.5px}
+table.facts td:first-child{color:var(--ink);white-space:nowrap}
+table.facts tr:hover td{background:var(--panel2)}
+table.facts .yr{color:var(--accent2);white-space:nowrap}
+table.facts q{color:var(--accent2);font-style:normal}
+
+.tl{position:relative;margin:14px 0 14px 6px;padding-left:20px;
+    border-left:2px solid var(--line2)}
+.tl .ev{position:relative;margin:0 0 16px}
+.tl .ev::before{content:"";position:absolute;left:-26px;top:5px;width:9px;height:9px;
+  border-radius:50%;background:var(--accent);box-shadow:var(--glow)}
+.tl .ev .yr{color:var(--accent);font-weight:700;font-size:12.5px;letter-spacing:.04em}
+.tl .ev .ti{color:var(--ink);font-weight:700;margin-left:8px}
+.tl .ev p{margin:4px 0 0;font-size:12.5px;color:#c8b795;line-height:1.65}
+
+.tag2{display:inline-block;font-size:11px;padding:2px 8px;border-radius:3px;
+  border:1px solid var(--line2);background:var(--panel3);color:var(--ink);
+  margin-left:6px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;
+  vertical-align:middle;line-height:1.35;white-space:nowrap}
+.tag2.fact{border-color:var(--good);background:var(--good);color:#0d1f07}
+.tag2.claim{border-color:var(--warn);background:var(--warn);color:#2a1f02}
+.tag2.dead{border-color:var(--bad);background:var(--bad);color:#2a0a06}
+
+.srcs{font-size:12px;color:var(--dim);line-height:1.8}
+.srcs a{color:var(--accent2)}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.cols2{grid-template-columns:1fr}}
+
+/* fact tables: explicit column sizing so labels are never squeezed away */
+table.facts{table-layout:fixed}
+table.facts thead th{background:var(--panel2);position:sticky;top:0;z-index:2}
+table.facts.c2 td:first-child,table.facts.c2 th:first-child{width:19%}
+table.facts.c3 td:nth-child(1),table.facts.c3 th:nth-child(1){width:17%}
+table.facts.c3 td:nth-child(2),table.facts.c3 th:nth-child(2){width:14%}
+table.facts td:first-child{white-space:normal;font-weight:700}
+table.facts td,table.facts th{word-wrap:break-word;overflow-wrap:anywhere}
+table.facts td.yr{color:var(--accent2);white-space:normal}
+
+/* expanded result rows */
+table.rank tr.detail td{background:var(--bg2);padding:0;border-bottom:2px solid var(--line2)}
+table.rank td.acts{white-space:nowrap}
+table.rank td.acts .go{margin-right:4px}
+.rowdet{padding:12px 14px;white-space:normal}
+.rd-head{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:9px}
+.rd-lab{font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);
+  font-weight:700;margin:11px 0 4px}
+.keymap{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:8px}
+.krow{display:flex;align-items:center;gap:4px;margin-bottom:4px;flex-wrap:wrap}
+.krow:last-child{margin-bottom:0}
+.kl{font-size:9.5px;color:var(--dim);width:52px;flex:none;text-transform:uppercase}
+.kc{display:inline-flex;align-items:baseline;gap:3px;font-size:9.5px;color:var(--dim);
+  border:1px solid var(--line);border-radius:2px;padding:2px 5px;background:var(--bg2)}
+.kc b{font-size:12.5px;color:var(--accent2)}
+.kc.un{opacity:.35}
+.kc.un b{color:var(--dim)}
+#recipebox{font-size:11px;line-height:1.5;white-space:pre;overflow-wrap:normal;
+  overflow-x:auto}
+
+/* document gallery */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;
+     margin:12px 0}
+.galitem{margin:0;background:var(--bg2);border:1px solid var(--line);border-radius:3px;
+     padding:8px;display:flex;flex-direction:column}
+.galitem img{width:100%;height:130px;object-fit:contain;background:#f4ecdd;
+     border-radius:2px;border:1px solid var(--line)}
+.galitem figcaption{font-size:11px;color:var(--dim);line-height:1.55;margin-top:8px}
+.galitem figcaption b{color:var(--accent2);font-size:10.5px}
+.galitem .lic{color:var(--good)}
+.prose h4{margin-top:18px}
+
+/* operation chain steps */
+.step{background:var(--bg2);border:1px solid var(--line);border-radius:3px;
+      padding:8px 10px;margin-bottom:7px}
+.step .sh{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11.5px}
+.step .sh b{color:var(--accent2)}
+.step .sh .go{margin-left:auto;cursor:pointer;color:var(--accent);
+  border:1px solid var(--line2);padding:1px 6px;border-radius:2px;font-size:9.5px}
+.step .sh .go:hover{background:var(--accent);color:#180d02}
+.step input{margin-bottom:2px}
+#presets button{display:block;width:100%;margin:0 0 5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Dorabella <span style="color:var(--accent)">Encipher</span></h1>
+  <span class="sub">plaintext → polar key → glyphs</span>
+  <nav>    <a href="../index.html">&larr; Investigation</a>
+    <a href="encipher.html" class="on">Encipher</a>
+    <a href="decipher.html">Decipher</a>
+    <a href="transpose.html">Transpose</a>
+    <a href="experiments.html">Experiments</a></nav>
+</header>
+
+<div class="wrap two">
+<!-- ============ LEFT: the key ============ -->
+<div>
+  <div class="card">
+    <h2>The polar key <span id="t1"></span></h2>
+    <div class="exp"><span class="hdr">elgar&rsquo;s clock face</span>His 1920s notebook draws the alphabet as polar coordinates: <b>radius 1&ndash;3</b> (the number of arcs) and <b>angle in &pi;/4 steps</b> (eight orientations). 24 cells, 24 letters &mdash; which is why two letters of the alphabet get no symbol at all.</div>
+    <div id="dial"></div>
+  </div>
+
+  <div class="card">
+    <h2>Grid editor <span id="t2"></span></h2>
+    <div class="exp"><span class="hdr">the same key, laid flat</span>The snowflake: each arm is an orientation, each ring an arc count. Type a letter into any cell. <b>Original fill</b> is the layout from my original <code>snowflake.html</code> (no J, no Q). <b>Turn</b> rotates the whole key one arm &mdash; note letters never change ring, which is exactly why rotation alone can never alter an arc count.</div>
+    <div id="grid"></div>
+    <label>Preset fill</label>
+    <select id="fill" onchange="setFill(this.value)"></select>
+    <div class="row tight"><button onclick="clearKey()">Clear</button>
+      <button onclick="turnKey(1)">turn ⟳</button>
+      <button onclick="turnKey(-1)">⟲ turn</button></div>
+    <div class="note" id="keyinfo"></div>
+  </div>
+</div>
+
+<!-- ============ RIGHT: settings + output ============ -->
+<div>
+  <div class="card">
+    <h2>Message</h2>
+    <div class="exp"><span class="hdr">what to encipher</span>Letters not present in the key are dropped and listed. <b>Line layout</b> controls how the output splits into manuscript rows &mdash; 29 / 31 / 27 matches Dorabella itself, which matters if you use the per-line key schedule.</div>
+    <label>Plaintext</label>
+    <textarea id="pt" rows="3" oninput="run()">YOUHAVESOLVEDTHECIPHER</textarea>
+    <div class="row">
+      <div><label>Line layout</label>
+        <select id="layout" onchange="run()">
+          <option value="dorabella">Dorabella 29 / 31 / 27</option>
+          <option value="single">single line</option>
+          <option value="thirds">three equal lines</option>
+        </select></div>
+      <div><label>&nbsp;</label>
+        <button class="primary" style="width:100%" onclick="run()">Encipher</button></div>
+    </div>
+    <div class="note" id="ptinfo"></div>
+  </div>
+
+  <div class="card">
+    <h2>Key motion <span id="t3"></span></h2>
+    <div class="exp"><span class="hdr">what makes it a cipher</span>A key that never moves is an ordinary substitution. A key that <b>moves between symbols</b> is a real cipher, and everything here is a symmetry of the polar key: rotate, reflect, permute the rings &mdash; applied on a schedule.<br><br>Encipher <b>applies</b> the motion (+k&middot;step); decipher <b>undoes</b> it (&minus;k&middot;step). Same key, same schedule, opposite sign. <b>Verify round-trip</b> proves the two directions are exact inverses for your current settings.</div>
+    <div class="row">
+      <div><label>Advance the key… <span id="t4"></span></label>
+        <select id="sched" onchange="run()"></select></div>
+      <div><label>Rotation step</label>
+        <select id="step" onchange="run()">
+          <option>1</option><option>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option></select></div>
+      <div><label>Direction</label>
+        <select id="dir" onchange="run()">
+          <option value="1">forward ⟳</option><option value="-1">backward ⟲</option>
+        </select></div>
+    </div>
+    <div class="row">
+      <div><label>Reflect <span id="t5"></span></label>
+        <select id="reflect" onchange="run()">
+          <option value="0">off</option><option value="1">on</option></select></div>
+      <div><label>Mirror axis</label>
+        <select id="axis" onchange="run()"></select></div>
+      <div><label>Arc-ring op <span id="t6"></span></label>
+        <select id="ring" onchange="run()"></select></div>
+    </div>
+    <label>Reading order <span id="t7"></span></label>
+    <select id="order" onchange="run()"></select>
+  </div>
+
+  <div class="card">
+    <h2>Glyph convention <span id="tc"></span></h2>
+    <div class="exp"><span class="hdr">how the glyphs are drawn</span>Which feature of an arc carries its direction name &mdash; the <b>apex</b>, the <b>opening</b>, or a quarter-turn from either. The manuscript does not say, so it is a setting. Every convention is a global relabelling: it changes the picture and the names you would write down, never the cryptanalysis. The legend shows all 24 as drawn.</div>
+    <div class="row">
+      <div><label>What names the glyph</label>
+        <select id="conv" onchange="convChanged()"></select></div>
+      <div><label>Drawing style</label>
+        <select id="convstyle" onchange="convChanged()"></select></div>
+    </div>
+    <div class="row">
+      <div><label>Offset ×45°</label>
+        <select id="convoff" onchange="convChanged()"></select></div>
+      <div><label>Handedness</label>
+        <select id="convmir" onchange="convChanged()">
+          <option value="0">normal</option><option value="1">mirrored</option>
+        </select></div>
+    </div>
+    <div class="note" id="convnote"></div>
+    <label style="margin-top:8px">Legend — all 24 glyphs as currently drawn</label>
+    <div class="glyphs" id="legend"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ciphertext out</h2>
+    <div class="exp"><span class="hdr">the result</span>The glyphs as they would appear on the page, with the plaintext letter under each, plus the same thing in <code>arcs+direction</code> notation. <b>Send to ciphertext</b> hands it to the Decipher page along with your key and settings.</div>
+    <div class="glyphs" id="glyphs"></div>
+    <label style="margin-top:10px">Notation</label>
+    <textarea id="ctout" rows="4" readonly></textarea>
+    <div class="row tight">
+      <button onclick="copyOut()">Copy</button>
+      <button onclick="toDecipher()">Open in Decipher →</button>
+      <button onclick="verify()">Verify round-trip</button>
+    </div>
+    <div class="note" id="rt"></div>
+  </div>
+</div>
+</div>
+
+<script>/* Fail loudly, never silently. Loaded before everything else. */
+(function(){
+  function banner(msg){
+    var b=document.getElementById('__err');
+    if(!b){
+      b=document.createElement('div'); b.id='__err';
+      b.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:9999;'
+        +'background:#2a0f0b;border-top:2px solid #ff5c4d;color:#ffd9d5;'
+        +'font:12px/1.5 ui-monospace,Consolas,monospace;padding:9px 14px;'
+        +'max-height:34vh;overflow:auto;white-space:pre-wrap';
+      (document.body||document.documentElement).appendChild(b);
+    }
+    b.textContent += (b.textContent ? String.fromCharCode(10) : '') + msg;
+  }
+  window.addEventListener('error', function(e){
+    banner('JS error: '+e.message+'  ('+String(e.filename||'').split('/').pop()+':'+e.lineno+')');
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    banner('Unhandled rejection: '+((e.reason&&e.reason.message)||e.reason));
+  });
+  /* localStorage throws SecurityError on file:// and data: origins */
+  window.safeStore = {
+    get:function(k){ try{ return window.localStorage.getItem(k); }catch(e){ return null; } },
+    set:function(k,v){ try{ window.localStorage.setItem(k,v); return true; }catch(e){ return false; } }
+  };
+  /* How long a chunk of work may run before yielding.
+
+     Visible: short, so typing and scrolling stay smooth.
+     Hidden : long, because Chrome clamps setTimeout in a background tab to
+              about one wake per second, and a hidden page has no interaction
+              to protect. Without this a sweep left running in another tab
+              crawls at under a tenth of its speed -- which defeats the point
+              of a sweep you are meant to leave running. */
+  window.workSlice = function(visibleMs){
+    var v = visibleMs || 60;
+    try { return document.hidden ? Math.max(v, 600) : v; }
+    catch (e) { return v; }
+  };
+  /* an unbuilt template must never be mistaken for a page */
+  if (document.documentElement.innerHTML.indexOf('__'+'CORE__') >= 0)
+    banner('This is a BUILD TEMPLATE, not a built page. Run:  python build.py');
+})();
+</script>
+<script>/* =====================================================================
+   DORABELLA CORE  —  the polar-key cipher engine
+   =====================================================================
+
+   THE IDEA (bugfish's snowflake, generalised)
+
+   Elgar's own 1920s notebook diagram draws his alphabet as a CLOCK FACE:
+   the glyphs are polar coordinates, radius 1–3 (number of semicircular
+   arcs) and angle in steps of pi/4 (8 orientations) = 24 symbols.
+
+   The snowflake grid IS that diagram. So the natural cipher operations are
+   the SYMMETRIES OF A POLAR KEY, not arbitrary shuffles:
+
+       Rotate(k)     theta -> theta + k          (the original idea)
+       Reflect(a)    theta -> a - theta          (mirror across an axis)
+       RingShift(m)  r     -> ((r-1+m) mod 3)+1  (arc count cycles)
+       RingPerm(p)   r     -> p(r)               (any of 6 permutations)
+
+   Rotate+Reflect generate the dihedral group D8 (16 elements); with the
+   ring permutations that is D8 x S3 = 96 elements. Every one of them is a
+   position-INDEPENDENT relabelling EXCEPT when applied on a SCHEDULE —
+   and a scheduled operation is what makes this a real cipher rather than
+   a renaming.
+
+   WHY THAT MATTERS: a substitution solver absorbs any fixed relabelling of
+   the 24 symbols. So a static grid fill, a once-off rotation, "orientation
+   is the letter and arcs are a modifier" — all already covered, no test
+   needed. Only SCHEDULED symmetry and READING ORDER change what a solver
+   sees. That is the entire search space, and it is small enough to sweep.
+   ===================================================================== */
+
+(function (root) {
+'use strict';
+
+/* ---------- symbols ---------- */
+const DIRS = ['n','ne','e','se','s','sw','w','nw'];
+const ORD  = {};  DIRS.forEach((d,i)=>ORD[d]=i);
+const RINGS = [1,2,3];
+const CELLS = [];
+for (const r of RINGS) for (let d=0; d<8; d++) CELLS.push([r,d]);
+
+const SYM_RE = /^([123])(n|ne|e|se|s|sw|w|nw)$/i;
+function parseSym(t){
+  const m = SYM_RE.exec(String(t).trim());
+  return m ? [ +m[1], ORD[m[2].toLowerCase()] ] : null;
+}
+function symName(s){ return s ? s[0] + DIRS[s[1]] : '??'; }
+function symKey(s){ return s[0] + '|' + s[1]; }
+
+/* Parse a whole ciphertext block: lines of space-separated symbols. */
+function parseBlock(text){
+  const lines = [], bad = [];
+  for (const raw of String(text).trim().split(/\r?\n+/)){
+    const row = [];
+    for (const tok of raw.trim().split(/\s+/)){
+      if (!tok) continue;
+      const s = parseSym(tok);
+      if (s) row.push(s); else bad.push(tok);
+    }
+    if (row.length) lines.push(row);
+  }
+  return { lines, bad, flat: lines.flat(), lens: lines.map(l=>l.length) };
+}
+
+/* ---------- reading order (as an index permutation, so it inverts) ---------- */
+const ORDERS = {
+  ident:    { label:'as written',           fn:L=>L.flat() },
+  revall:   { label:'reversed (whole)',     fn:L=>L.flat().reverse() },
+  revlines: { label:'each line reversed',   fn:L=>L.flatMap(l=>[...l].reverse()) },
+  boustro:  { label:'boustrophedon',        fn:L=>L.flatMap((l,i)=>i%2?[...l].reverse():l) },
+  l321:     { label:'lines 3,2,1',          fn:L=>[...L].reverse().flat() },
+  cols:     { label:'columns (interleave)', fn:L=>{
+               const out=[], m=Math.max(0,...L.map(l=>l.length));
+               for(let c=0;c<m;c++) for(const l of L) if(c<l.length) out.push(l[c]);
+               return out; } },
+  spiral:   { label:'spiral (out→in)',      fn:L=>{
+               /* read line1 L→R, line3 R→L, line2 L→R: a flattened spiral */
+               const o=[]; if(L[0])o.push(...L[0]);
+               if(L[2])o.push(...[...L[2]].reverse());
+               if(L[1])o.push(...L[1]);
+               for(let i=3;i<L.length;i++)o.push(...L[i]);
+               return o; } },
+};
+function orderPerm(lens, mode){
+  const L=[]; let i=0;
+  for(const n of lens){ L.push(Array.from({length:n},(_,x)=>x+i)); i+=n; }
+  return (ORDERS[mode]||ORDERS.ident).fn(L);
+}
+function invertPerm(p){ const q=new Array(p.length); p.forEach((v,i)=>q[v]=i); return q; }
+
+/* ---------- schedules: WHEN the key advances ---------- */
+const SCHEDULES = {
+  none:   { label:'never (static key)',      tip:'The key never moves. A plain substitution.' },
+  every:  { label:'every symbol',            tip:'Advance after each symbol — a progressive-key cipher, period 8.' },
+  every2: { label:'every 2 symbols',         tip:'Advance on every second symbol.' },
+  every3: { label:'every 3 symbols',         tip:'Advance on every third symbol.' },
+  every5: { label:'every 5 symbols',         tip:'Advance on every fifth symbol.' },
+  line:   { label:'once per line',           tip:'Advance only at a line break — three key states total.' },
+  word:   { label:'every 5 (word-ish)',      tip:'Stand-in for word boundaries, which Dorabella does not mark.' },
+  repeat: { label:'on a repeated symbol',    tip:'Advance only when a symbol equals the one before it. Irregular — this is the variant the orientation test cannot rule out.' },
+  ring:   { label:'on an arc-count change',  tip:'Advance when the number of arcs changes. Irregular, driven by the text itself.' },
+  mirror: { label:'on a 180° mirrored pair', tip:'Advance when two consecutive same-ring symbols face opposite ways. Dorabella has 10 of these (p=0.03) — far more than chance.' },
+};
+function advance(sched, i, sym, prev){
+  switch(sched){
+    case 'every':  return 1;
+    case 'every2': return (i+1)%2===0 ?1:0;
+    case 'every3': return (i+1)%3===0 ?1:0;
+    case 'every5': case 'word': return (i+1)%5===0 ?1:0;
+    case 'repeat': return (prev && prev[0]===sym[0] && prev[1]===sym[1]) ?1:0;
+    case 'ring':   return (prev && prev[0]!==sym[0]) ?1:0;
+    case 'mirror': return (prev && prev[0]===sym[0] &&
+                           ((prev[1]-sym[1])%8+8)%8===4) ?1:0;
+    default:       return 0;                       /* 'none', 'line' handled outside */
+  }
+}
+
+/* ---------- the symmetry group element applied at step k ---------- */
+const RINGPERMS = {
+  id:   { label:'identity',      p:[1,2,3] },
+  cyc:  { label:'cycle 1→2→3',   p:[2,3,1] },
+  cyc2: { label:'cycle 1→3→2',   p:[3,1,2] },
+  sw12: { label:'swap 1↔2',      p:[2,1,3] },
+  sw23: { label:'swap 2↔3',      p:[1,3,2] },
+  sw13: { label:'swap 1↔3',      p:[3,2,1] },
+};
+
+/* order of a ring permutation: 1 (identity), 2 (a swap), 3 (a 3-cycle) */
+function permOrder(p){
+  let q=[1,2,3], n=0;
+  do { q = q.map(x=>p[x-1]); n++; } while (!(q[0]===1&&q[1]===2&&q[2]===3) && n<6);
+  return n;
+}
+function permPow(p, t){                 /* p applied t times (t may be negative) */
+  const ord = permOrder(p);
+  t = ((t % ord) + ord) % ord;
+  let q=[1,2,3];
+  for (let i=0;i<t;i++) q = q.map(x=>p[x-1]);
+  return q;
+}
+function ringTimes(k, spec){
+  if (!spec.ring || spec.ring==='id') return 0;
+  return spec.ringEvery ? Math.floor(k/spec.ringEvery) : k;
+}
+
+/* FORWARD op for step k: base cell -> cipher symbol.
+   Order of application: reflect, then rotate, then ring-permute.
+   spec = {step, dir, reflect, axis, reflectEvery, ring, ringEvery}        */
+function opForward(cell, k, spec){
+  let r = cell[0], d = cell[1];
+  if (spec.reflect && k % (spec.reflectEvery||1) === 0)
+    d = (((spec.axis||0) - d) % 8 + 8) % 8;
+  d = ((d + spec.dir*spec.step*k) % 8 + 8) % 8;
+  const t = ringTimes(k, spec);
+  if (t) r = permPow(RINGPERMS[spec.ring].p, t)[r-1];
+  return [r,d];
+}
+/* INVERSE op: cipher symbol -> base cell. Undo in the opposite order. */
+function opInverse(sym, k, spec){
+  let r = sym[0], d = sym[1];
+  const t = ringTimes(k, spec);
+  if (t) r = permPow(RINGPERMS[spec.ring].p, -t)[r-1];
+  d = ((d - spec.dir*spec.step*k) % 8 + 8) % 8;
+  if (spec.reflect && k % (spec.reflectEvery||1) === 0)
+    d = (((spec.axis||0) - d) % 8 + 8) % 8;   /* reflection is its own inverse */
+  return [r,d];
+}
+
+function defaultSpec(){
+  return { step:1, dir:1, sched:'none', reflect:false, axis:0,
+           reflectEvery:1, ring:'id', ringEvery:0 };
+}
+
+/* ---------- convention relabelling ----------
+   Re-express a symbol stream as it WOULD have been transcribed under a
+   different naming convention: d -> (mirror ? -d : d) + offset.
+
+   This is a GLOBAL relabelling of the 24 names, so every statistic that
+   matters is invariant under it (orientation chi2 only permutes its bins;
+   mirrored pairs are defined by a difference mod 8, which both rotation and
+   reflection preserve; IC and entropy depend only on the partition). It is
+   provided so you can regenerate the transcription text under whichever
+   convention matches the manuscript you are reading — not because it moves
+   the analysis. core.test.js asserts the invariance.                      */
+function relabel(cells, offset, mirror){
+  offset = offset|0;
+  return cells.map(([r,d]) => [r, (((mirror ? -d : d) + offset) % 8 + 8) % 8]);
+}
+
+/* ---------- the two pipelines ---------- */
+
+/* DECIPHER: symbols on the page -> plaintext letters.
+   Phase 2 sequences, phase 3 UNWINDS the scheduled symmetry (inverse op). */
+function unwind(seq, lineOf, spec){
+  const out=[]; let k=0, prev=null;
+  for (let i=0;i<seq.length;i++){
+    out.push(opInverse(seq[i], k, spec));
+    if (spec.sched==='line'){
+      if (lineOf && i+1<lineOf.length && lineOf[i+1]!==lineOf[i]) k++;
+    } else k += advance(spec.sched, i, seq[i], prev);
+    prev = seq[i];
+  }
+  return out;
+}
+
+/* ENCIPHER: plaintext letters -> symbols. Phase 3 APPLIES the symmetry. */
+function wind(cells, lineOf, spec){
+  const out=[]; let k=0, prev=null;
+  for (let i=0;i<cells.length;i++){
+    if (!cells[i]){ out.push(null); prev=null; continue; }
+    const sym = opForward(cells[i], k, spec);
+    out.push(sym);
+    if (spec.sched==='line'){
+      if (lineOf && i+1<lineOf.length && lineOf[i+1]!==lineOf[i]) k++;
+    } else k += advance(spec.sched, i, sym, prev);
+    prev = sym;
+  }
+  return out;
+}
+
+/* ---------- key grid ---------- */
+const FILLS = {
+  elgar: { label:"Elgar / original snowflake.html",
+    map:{ '3|7':'A','3|0':'B','3|1':'C', '2|7':'G','2|0':'H','2|1':'I',
+          '1|7':'N','1|0':'O','1|1':'P', '3|6':'U','2|6':'V','1|6':'W',
+          '1|2':'X','2|2':'Y','3|2':'Z', '1|5':'R','1|4':'S','1|3':'T',
+          '2|5':'K','2|4':'L','2|3':'M', '3|5':'D','3|4':'E','3|3':'F' } },
+  ax:    { label:'A–X, ring-major', map:(()=>{ const m={},L='ABCDEFGHIJKLMNOPQRSTUVWX';
+             let i=0; for(const c of CELLS) m[symKey(c)]=L[i++]; return m; })() },
+  spiral:{ label:'A–X, spiral from centre', map:(()=>{ const m={},L='ABCDEFGHIJKLMNOPQRSTUVWX';
+             let i=0; for(const r of [1,2,3]) for(let d=0;d<8;d++) m[r+'|'+d]=L[i++];
+             return m; })() },
+};
+function invertKey(key){ const m={}; for(const k in key){ const v=key[k];
+  if(v && !(v in m)) m[v]=k; } return m; }
+
+function applyKey(cells, key){
+  return cells.map(c => c ? (key[symKey(c)] || '·') : '·').join('');
+}
+
+/* ---------- top-level convenience ---------- */
+function decipher(block, opts){
+  const perm   = orderPerm(block.lens, opts.order||'ident');
+  const lineOf = []; block.lens.forEach((n,i)=>{ for(let j=0;j<n;j++) lineOf.push(i); });
+  const seq    = perm.map(i=>block.flat[i]);
+  const seqLine= perm.map(i=>lineOf[i]);
+  const cells  = unwind(seq, seqLine, opts.spec||defaultSpec());
+  return { perm, seq, cells, text: applyKey(cells, opts.key||{}) };
+}
+function encipher(text, lens, opts){
+  const key  = opts.key||{}, inv = invertKey(key);
+  const letters = String(text).toUpperCase().replace(/[^A-Z]/g,'').split('');
+  const kept = letters.filter(c=>inv[c]);
+  const dropped = [...new Set(letters.filter(c=>!inv[c]))];
+  const useLens = (lens && lens.reduce((a,b)=>a+b,0)===kept.length) ? lens : [kept.length];
+  const perm   = orderPerm(useLens, opts.order||'ident');
+  const lineOf = []; useLens.forEach((n,i)=>{ for(let j=0;j<n;j++) lineOf.push(i); });
+  const cells  = kept.map(c=>{ const s=inv[c]; const [r,d]=s.split('|'); return [+r,+d]; });
+  const syms   = wind(cells, perm.map(i=>lineOf[i]), opts.spec||defaultSpec());
+  const flat   = new Array(kept.length).fill(null);
+  perm.forEach((p,i)=>{ flat[p]=syms[i]; });
+  return { flat, lens:useLens, kept:kept.join(''), dropped };
+}
+
+root.Dorabella = {
+  DIRS, ORD, RINGS, CELLS, ORDERS, SCHEDULES, RINGPERMS, FILLS,
+  parseSym, symName, symKey, parseBlock, orderPerm, invertPerm,
+  opForward, opInverse, defaultSpec, relabel, unwind, wind, applyKey, invertKey,
+  decipher, encipher, advance,
+};
+})(typeof window!=='undefined' ? window : globalThis);
+</script>
+<script>/* =====================================================================
+   DORABELLA UI  —  glyph rendering, key diagrams, legend
+   =====================================================================
+
+   GLYPH CONVENTION
+   ----------------
+   A semicircular arc has two features that could "name" it:
+
+       the APEX     — the convex point, the tip of the cup
+       the OPENING  — the gap side, opposite the apex
+
+   Elgar's manuscript does not tell us which one his direction names refer
+   to, and a transcriber can legitimately anchor on either — or on a
+   quarter-turn from either. So the convention is a SETTING, not a constant.
+
+   IMPORTANT, and worth stating plainly: every convention here is a GLOBAL
+   RELABELLING of the 24 symbols (a rotation and/or reflection of the whole
+   name space). The substitution solver absorbs any global relabelling, and
+   the key-free statistics are invariant under it too:
+
+       - orientation chi2 only permutes its bins
+       - mirrored-pair counts use (d_i - d_j) mod 8 == 4, and both rotation
+         and reflection preserve that difference
+
+   So changing the convention changes the PICTURE and the names you would
+   write down — it does not change any conclusion. Its real job is letting
+   you eyeball the rendered glyphs against the manuscript and confirm the
+   transcription is the one you meant.
+
+   The snowflake key geometry is untouched by all of this: arm = orientation
+   index, ring = arc count, exactly as before.
+   ===================================================================== */
+(function (root) {
+'use strict';
+const D = root.Dorabella;
+
+/* ---------- conventions ---------- */
+/* effective apex angle = ((mirror ? -d : d) + offset) * 45 degrees        */
+const CONVENTIONS = {
+  pointed:      { label:'pointed — apex points at the named direction',
+                  offset:0, mirror:false,
+                  tip:'The convex tip of the cup points the way it is named. <b>2e</b> = a two-arc cup bulging east, opening west.' },
+  opening:      { label:'opening — the gap faces the named direction',
+                  offset:4, mirror:false,
+                  tip:'The open side faces the way it is named. <b>2e</b> = a two-arc cup opening east, bulging west. This is the exact opposite of <i>pointed</i>.' },
+  antipointed:  { label:'anti-pointed — apex opposite the name',
+                  offset:4, mirror:false,
+                  tip:'Identical in effect to <i>opening</i>: if the apex points away from the name, the opening points at it. Kept as a separate entry because people mean it as a different idea.' },
+  pointed_cw:   { label:'pointed +90° — apex a quarter-turn clockwise',
+                  offset:2, mirror:false,
+                  tip:'Apex sits 90° clockwise of the name. Under this, a cup <b>opening west</b> is called <b>n</b>.' },
+  pointed_ccw:  { label:'pointed −90° — apex a quarter-turn anticlockwise',
+                  offset:6, mirror:false,
+                  tip:'Apex sits 90° anticlockwise of the name.' },
+  mirrored:     { label:'mirrored — handedness flipped',
+                  offset:0, mirror:true,
+                  tip:'Reflects the direction index (d → −d) before drawing. Use if your transcription numbered the arms anticlockwise instead of clockwise.' },
+  mirror_open:  { label:'mirrored + opening',
+                  offset:4, mirror:true,
+                  tip:'Reflected handedness with the opening anchoring the name.' },
+  custom:       { label:'custom — set offset and mirror by hand',
+                  offset:0, mirror:false,
+                  tip:'Free control: pick any 45° offset and toggle handedness.' },
+};
+
+/* ---------- glyph styles ---------- */
+const STYLES = {
+  arcs:   { label:'concentric arcs (cups)',
+            tip:'r nested semicircles. The usual reading of the manuscript.' },
+  eshape: { label:'rotated E (Elgar’s "EE")',
+            tip:'The Cipher Foundation describes the key as "3 versions each of 8 rotated E-shapes", likely a pun on Edward Elgar’s initials. Same 24 symbols, drawn as a spine with r prongs.' },
+  bars:   { label:'bars — spine with r ticks',
+            tip:'A minimal rendering: one spine along the direction with r cross-ticks. Useful when the cups are hard to tell apart at small sizes.' },
+  wedge:  { label:'wedge — filled sector',
+            tip:'A filled sector of r/3 radius. Fast to scan when comparing long rows.' },
+};
+
+function resolveConv(conv){
+  if (!conv) return { offset:0, mirror:false, style:'arcs' };
+  const base = CONVENTIONS[conv.name] || CONVENTIONS.pointed;
+  return {
+    offset: conv.name === 'custom' ? (conv.offset|0) : base.offset,
+    mirror: conv.name === 'custom' ? !!conv.mirror : base.mirror,
+    style:  conv.style || 'arcs',
+  };
+}
+/* the on-screen apex angle, in radians, for direction index d */
+function apexAngle(d, c){
+  const e = (((c.mirror ? -d : d) + c.offset) % 8 + 8) % 8;
+  return e * 45 * Math.PI / 180;
+}
+
+/* ---------- path builders ---------- */
+function pathArcs(r, base, S){
+  let p = '';
+  for (let i=1;i<=r;i++){
+    const rad = S*0.115*i + S*0.055;
+    const a1 = base - Math.PI/2, a2 = base + Math.PI/2;
+    const c = S/2;
+    p += `M${(c+rad*Math.cos(a1)).toFixed(2)} ${(c+rad*Math.sin(a1)).toFixed(2)} `
+       + `A${rad.toFixed(2)} ${rad.toFixed(2)} 0 0 1 `
+       + `${(c+rad*Math.cos(a2)).toFixed(2)} ${(c+rad*Math.sin(a2)).toFixed(2)} `;
+  }
+  return p;
+}
+function pathE(r, base, S){
+  /* spine perpendicular to `base`, r prongs pointing along `base` */
+  const c = S/2, L = S*0.34, P = S*0.24;
+  const ux = Math.cos(base), uy = Math.sin(base);      /* along the apex dir */
+  const vx = -Math.sin(base), vy = Math.cos(base);     /* along the spine    */
+  const sx = c - ux*P*0.55, sy = c - uy*P*0.55;        /* spine sits behind  */
+  let p = `M${(sx-vx*L).toFixed(2)} ${(sy-vy*L).toFixed(2)} `
+        + `L${(sx+vx*L).toFixed(2)} ${(sy+vy*L).toFixed(2)} `;
+  for (let i=0;i<r;i++){
+    const t = r===1 ? 0 : (-1 + 2*i/(r-1));            /* -1 .. +1 along spine */
+    const bx = sx + vx*L*t, by = sy + vy*L*t;
+    p += `M${bx.toFixed(2)} ${by.toFixed(2)} L${(bx+ux*P).toFixed(2)} ${(by+uy*P).toFixed(2)} `;
+  }
+  return p;
+}
+function pathBars(r, base, S){
+  const c = S/2, L = S*0.33, W = S*0.13;
+  const ux = Math.cos(base), uy = Math.sin(base);
+  const vx = -Math.sin(base), vy = Math.cos(base);
+  let p = `M${(c-ux*L).toFixed(2)} ${(c-uy*L).toFixed(2)} `
+        + `L${(c+ux*L).toFixed(2)} ${(c+uy*L).toFixed(2)} `;
+  for (let i=0;i<r;i++){
+    const t = -L*0.55 + (r===1?0:(i/(r-1))*L*1.1);
+    const bx = c+ux*t, by = c+uy*t;
+    p += `M${(bx-vx*W).toFixed(2)} ${(by-vy*W).toFixed(2)} `
+       + `L${(bx+vx*W).toFixed(2)} ${(by+vy*W).toFixed(2)} `;
+  }
+  return p;
+}
+function pathWedge(r, base, S){
+  const c = S/2, rad = S*0.13*r + S*0.08;
+  const a1 = base - Math.PI/3, a2 = base + Math.PI/3;
+  return `M${c} ${c} L${(c+rad*Math.cos(a1)).toFixed(2)} ${(c+rad*Math.sin(a1)).toFixed(2)} `
+       + `A${rad.toFixed(2)} ${rad.toFixed(2)} 0 0 1 `
+       + `${(c+rad*Math.cos(a2)).toFixed(2)} ${(c+rad*Math.sin(a2)).toFixed(2)} Z`;
+}
+
+function glyphPath(r, d, size, conv){
+  const c = resolveConv(conv), base = apexAngle(d, c);
+  switch (c.style){
+    case 'eshape': return pathE(r, base, size);
+    case 'bars':   return pathBars(r, base, size);
+    case 'wedge':  return pathWedge(r, base, size);
+    default:       return pathArcs(r, base, size);
+  }
+}
+function isFilled(conv){ return resolveConv(conv).style === 'wedge'; }
+
+function glyphSVG(r, d, size, conv, color){
+  const fill = isFilled(conv);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">`
+       + `<path d="${glyphPath(r,d,size,conv)}" `
+       + (fill ? `fill="${color||'currentColor'}" stroke="none"`
+               : `fill="none" stroke="${color||'currentColor'}" `
+                 +`stroke-width="${Math.max(1.2,size*0.055)}" stroke-linecap="round"`)
+       + `/></svg>`;
+}
+
+/* ---------- ciphertext as glyph rows ---------- */
+function renderGlyphs(el, lines, letters, opts){
+  opts = opts || {};
+  const S = opts.size || 30, GAP = 6;
+  const LH = S + (opts.showLetters === false ? 8 : 20);
+  const conv = opts.conv, fill = isFilled(conv);
+  const sw = Math.max(1.3, S*0.055);
+  let idx = 0, html = '';
+  const cols = Math.max(1, ...lines.map(l=>l.length));
+  html += `<svg width="${cols*(S+GAP)}" height="${lines.length*LH+6}">`;
+  lines.forEach((line, li) => {
+    line.forEach((sym, ci) => {
+      const x = ci*(S+GAP), y = li*LH;
+      const hi = opts.mark && opts.mark(idx);
+      const col = hi ? 'var(--accent)' : (opts.color || 'var(--ink)');
+      html += `<g transform="translate(${x},${y})">`;
+      if (hi) html += `<rect x="-2" y="-2" width="${S+4}" height="${S+4}" rx="2" `
+                    + `fill="none" stroke="var(--accent)" stroke-width="1"/>`;
+      html += `<path d="${glyphPath(sym[0],sym[1],S,conv)}" `
+            + (fill ? `fill="${col}" stroke="none"`
+                    : `fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round"`)
+            + `/>`;
+      if (opts.showLetters !== false && letters && letters[idx])
+        html += `<text x="${S/2}" y="${S+14}" text-anchor="middle" font-size="12.5" `
+              + `font-family="monospace" font-weight="700" fill="var(--accent)">${letters[idx]}</text>`;
+      if (opts.showNames)
+        html += `<text x="${S/2}" y="${S+14}" text-anchor="middle" font-size="10.5" `
+              + `font-family="monospace" font-weight="700" fill="var(--dim)">${D.symName(sym)}</text>`;
+      html += `</g>`;
+      idx++;
+    });
+  });
+  el.innerHTML = html + '</svg>';
+}
+
+/* ---------- the legend: all 24 glyphs with their names ---------- */
+function renderLegend(el, conv, opts){
+  opts = opts || {};
+  const S = opts.size || 34, GAP = 8, fill = isFilled(conv);
+  const sw = Math.max(1.3, S*0.055);
+  let h = `<svg width="${8*(S+GAP)+8}" height="${3*(S+20)+6}">`;
+  for (let ri=0; ri<3; ri++){
+    for (let d=0; d<8; d++){
+      const r = ri+1, x = d*(S+GAP)+4, y = ri*(S+20);
+      h += `<g transform="translate(${x},${y})">`
+        +  `<path d="${glyphPath(r,d,S,conv)}" `
+        +  (fill ? `fill="var(--accent2)" stroke="none"`
+                 : `fill="none" stroke="var(--accent2)" stroke-width="${sw}" stroke-linecap="round"`)
+        +  `/>`
+        +  `<text x="${S/2}" y="${S+13}" text-anchor="middle" font-size="10.5" `
+        +  `font-family="monospace" font-weight="700" fill="var(--dim)">${r}${D.DIRS[d]}</text></g>`;
+    }
+  }
+  el.innerHTML = h + '</svg>';
+}
+
+/* ---------- the polar key (Elgar's clock face) ---------- */
+function renderKeyDial(el, key, opts){
+  opts = opts || {};
+  const R = opts.size || 300, c = R/2;
+  const radii = [R*0.16, R*0.27, R*0.39];
+  let h = `<svg width="${R}" height="${R}" viewBox="0 0 ${R} ${R}" class="dial">`;
+  for (const rad of radii)
+    h += `<circle cx="${c}" cy="${c}" r="${rad}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+  for (let d=0; d<8; d++){
+    const a = d*45*Math.PI/180;
+    h += `<line x1="${c+radii[0]*0.45*Math.cos(a)}" y1="${c+radii[0]*0.45*Math.sin(a)}" `
+       + `x2="${c+(radii[2]+R*0.07)*Math.cos(a)}" y2="${c+(radii[2]+R*0.07)*Math.sin(a)}" `
+       + `stroke="var(--line)" stroke-width="1"/>`;
+    h += `<text x="${c+(radii[2]+R*0.105)*Math.cos(a)}" y="${c+(radii[2]+R*0.105)*Math.sin(a)+4}" `
+       + `text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--dim)" `
+       + `font-family="monospace">${D.DIRS[d]}</text>`;
+  }
+  h += `<circle cx="${c}" cy="${c}" r="${R*0.042}" fill="var(--accent)" opacity=".3"/>`;
+  for (let ri=0; ri<3; ri++) for (let d=0; d<8; d++){
+    const r = ri+1, a = d*45*Math.PI/180;
+    const x = c+radii[ri]*Math.cos(a), y = c+radii[ri]*Math.sin(a);
+    const k = r+'|'+d, L = key[k]||'';
+    const hi = opts.highlight && opts.highlight.has && opts.highlight.has(k);
+    h += `<g class="cell" data-k="${k}" transform="translate(${x},${y})">`
+       + `<circle r="${R*0.038}" fill="${hi?'var(--accent)':'var(--panel3)'}" `
+       + `stroke="${hi?'var(--accent)':'var(--line2)'}" stroke-width="1"/>`
+       + `<text y="4" text-anchor="middle" font-size="${R*0.045}" font-weight="700" `
+       + `font-family="monospace" fill="${hi?'#180d02':'var(--accent2)'}">${L}</text></g>`;
+  }
+  el.innerHTML = h + `</svg>`;
+}
+
+/* ---------- the 7x7 snowflake grid (unchanged geometry) ---------- */
+const LAYOUT = (()=>{ const m={};
+  for (let r=1;r<=3;r++){
+    m[(3-r)+','+3]=[r,0];      m[(3+r)+','+3]=[r,4];
+    m[3+','+(3+r)]=[r,2];      m[3+','+(3-r)]=[r,6];
+    m[(3-r)+','+(3+r)]=[r,1];  m[(3+r)+','+(3+r)]=[r,3];
+    m[(3+r)+','+(3-r)]=[r,5];  m[(3-r)+','+(3-r)]=[r,7];
+  } return m; })();
+
+function renderGrid(el, key, onEdit){
+  let h='<table class="grid">';
+  for (let row=0; row<7; row++){
+    h+='<tr>';
+    for (let col=0; col<7; col++){
+      if (row===3&&col===3){ h+='<td class="on hub" title="key centre"></td>'; continue; }
+      const c = LAYOUT[row+','+col];
+      if (!c){ h+='<td></td>'; continue; }
+      h += `<td class="on"><input maxlength="1" data-k="${c[0]}|${c[1]}" `
+         + `title="${c[0]} arc${c[0]>1?'s':''}, direction ${D.DIRS[c[1]]}">`
+         + `<span class="tag">${c[0]}${D.DIRS[c[1]]}</span></td>`;
+    }
+    h+='</tr>';
+  }
+  el.innerHTML = h+'</table>';
+  el.querySelectorAll('input').forEach(i=>{
+    i.value = key[i.dataset.k]||'';
+    i.addEventListener('input', ()=>onEdit(i.dataset.k, i.value.toUpperCase()));
+  });
+}
+function syncGrid(el, key){
+  el.querySelectorAll('input').forEach(i=>{ i.value = key[i.dataset.k]||''; });
+}
+
+function tip(text){
+  return `<span class="tip" tabindex="0"><span class="tip-i"></span>`
+       + `<span class="tip-b">${text}</span></span>`;
+}
+
+root.DorUI = { CONVENTIONS, STYLES, resolveConv, apexAngle,
+               glyphPath, glyphSVG, renderGlyphs, renderLegend,
+               renderKeyDial, renderGrid, syncGrid, tip, LAYOUT };
+})(typeof window!=='undefined' ? window : globalThis);
+</script>
+<script>
+const D = Dorabella, U = DorUI;
+let KEY = Object.assign({}, D.FILLS.elgar.map);
+let CONV = { name:'pointed', offset:0, mirror:false, style:'arcs' };
+
+/* ---------- populate selects ---------- */
+function opts(el, obj, val){
+  document.getElementById(el).innerHTML =
+    Object.keys(obj).map(k=>`<option value="${k}">${obj[k].label}</option>`).join('');
+  if (val) document.getElementById(el).value = val;
+}
+opts('fill', D.FILLS, 'elgar');
+opts('sched', D.SCHEDULES, 'none');
+opts('ring', D.RINGPERMS, 'id');
+opts('order', D.ORDERS, 'ident');
+opts('conv', U.CONVENTIONS, 'pointed');
+opts('convstyle', U.STYLES, 'arcs');
+document.getElementById('convoff').innerHTML =
+  [0,1,2,3,4,5,6,7].map(i=>`<option value="${i}">${i*45}°</option>`).join('');
+document.getElementById('axis').innerHTML =
+  D.DIRS.map((d,i)=>`<option value="${i}">${d} axis</option>`).join('');
+
+/* ---------- tooltips ---------- */
+const TIPS = {
+ t1:'Each cell is one letter. A glyph is <b>r arcs facing direction θ</b>. This is the same diagram Elgar drew in his 1920s notebook — polar coordinates, radius 1–3, angle in π/4 steps.',
+ t2:'Type a letter into any cell. The grid and the dial are the same key shown two ways. 24 cells means two letters of the alphabet get no symbol — the original fill drops J and Q.',
+ t3:'This is the heart of the idea. A <b>static</b> key is an ordinary substitution. A key that <b>moves</b> between symbols is a real cipher. Everything below is a symmetry of the polar key: rotate, reflect, permute the rings.',
+ t4:'When the key advances. <b>Never</b> = plain substitution. <b>Every symbol</b> = progressive key, period 8 — but that forces orientation counts to flatten, which Dorabella violates (χ²=26.6, p=0.0003). The <b>irregular</b> schedules (on repeat / arc change / mirrored pair) do NOT flatten, so they survive that test.',
+ t5:'Mirror the key across an axis before rotating. Dorabella has 10 consecutive 180°-mirrored pairs where chance predicts ~5 (p=0.03), so reflection is worth testing.',
+ t6:'Permute the arc counts (rings) as the key advances. Rotation alone always preserves the ring — this is the only operation that does not.',
+ t7:'The order the 87 glyphs are read off the page. Encipher inverts this exactly, so the round-trip still holds.',
+};
+TIPS.tc = 'Which feature of a drawn arc carries its direction name — the apex, the opening, or a quarter-turn from either. Elgar’s manuscript does not say, so it is a setting. Every convention is a <b>global relabelling</b>, so it changes the picture and the names you would write down, never the cryptanalysis.';
+for (const k in TIPS) document.getElementById(k).innerHTML = U.tip(TIPS[k]);
+
+function convChanged(){
+  CONV.name  = document.getElementById('conv').value;
+  CONV.style = document.getElementById('convstyle').value;
+  const custom = CONV.name === 'custom';
+  document.getElementById('convoff').disabled = !custom;
+  document.getElementById('convmir').disabled = !custom;
+  if (custom){ CONV.offset = +document.getElementById('convoff').value;
+               CONV.mirror = document.getElementById('convmir').value === '1'; }
+  else { const b = U.resolveConv({name:CONV.name});
+         CONV.offset = b.offset; CONV.mirror = b.mirror;
+         document.getElementById('convoff').value = String(b.offset);
+         document.getElementById('convmir').value = b.mirror ? '1' : '0'; }
+  document.getElementById('convnote').innerHTML =
+    (U.CONVENTIONS[CONV.name].tip||'')
+    + '<br><span class="mono">apex = (' + (CONV.mirror?'−d':'d')
+    + ' + ' + CONV.offset + ') × 45°</span>';
+  U.renderLegend(document.getElementById('legend'), CONV, {size:32});
+  run();
+}
+
+/* ---------- key ---------- */
+function drawKey(){
+  U.renderGrid(document.getElementById('grid'), KEY, (k,v)=>{ KEY[k]=v; drawDial(); run(); });
+  drawDial();
+  const used = Object.values(KEY).filter(Boolean);
+  const dup = used.length - new Set(used).size;
+  document.getElementById('keyinfo').innerHTML =
+    `${used.length}/24 cells filled` + (dup?` · <span style="color:var(--bad)">${dup} duplicate letter(s)</span>`:'')
+    + ` · missing: ${[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].filter(c=>!used.includes(c)).join(' ')||'none'}`;
+}
+function drawDial(){ U.renderKeyDial(document.getElementById('dial'), KEY, {size:290}); }
+function setFill(k){ KEY = Object.assign({}, D.FILLS[k].map); drawKey(); run(); }
+function clearKey(){ KEY={}; drawKey(); run(); }
+function turnKey(s){ const n={};
+  for(const c of D.CELLS){ const nd=((c[1]+s)%8+8)%8; n[c[0]+'|'+nd]=KEY[c[0]+'|'+c[1]]||''; }
+  KEY=n; drawKey(); run(); }
+
+/* ---------- settings ---------- */
+function spec(){ return {
+  step:+document.getElementById('step').value,
+  dir:+document.getElementById('dir').value,
+  sched:document.getElementById('sched').value,
+  reflect:document.getElementById('reflect').value==='1',
+  axis:+document.getElementById('axis').value,
+  reflectEvery:1,
+  ring:document.getElementById('ring').value,
+  ringEvery:document.getElementById('ring').value==='id'?0:1 }; }
+function order(){ return document.getElementById('order').value; }
+function layoutLens(n){
+  const m=document.getElementById('layout').value;
+  if(m==='single') return [n];
+  if(m==='dorabella') return n===87?[29,31,27]:[n];
+  const a=Math.ceil(n/3), b=Math.ceil((n-a)/2); return [a,b,n-a-b].filter(x=>x>0);
+}
+
+/* ---------- run ---------- */
+let LAST=null;
+function run(){
+  const txt = document.getElementById('pt').value;
+  const letters = txt.toUpperCase().replace(/[^A-Z]/g,'');
+  const lens = layoutLens(letters.length);
+  const r = D.encipher(txt, lens, {key:KEY, order:order(), spec:spec()});
+  LAST = r;
+  const lines=[]; let i=0;
+  for(const n of r.lens){ lines.push(r.flat.slice(i,i+n)); i+=n; }
+  U.renderGlyphs(document.getElementById('glyphs'),
+                 lines.map(l=>l.filter(Boolean)), r.kept, {size:30, conv:CONV});
+  document.getElementById('ctout').value =
+    lines.map(l=>l.map(D.symName).join(' ')).join('\n');
+  document.getElementById('ptinfo').innerHTML =
+    `${r.kept.length} letters → ${r.flat.length} symbols · lines ${r.lens.join('/')}`
+    + (r.dropped.length ? ` · <span style="color:var(--bad)">dropped (not in key): ${r.dropped.join(' ')}</span>` : '');
+  document.getElementById('rt').textContent='';
+}
+function copyOut(){ const t=document.getElementById('ctout');
+  t.select(); document.execCommand('copy');
+  document.getElementById('rt').textContent='copied to clipboard'; }
+function toDecipher(){
+  const ok = safeStore.set('dorabella.handoff', JSON.stringify({
+    ct:document.getElementById('ctout').value, key:KEY,
+    order:order(), spec:spec() }));
+  if(!ok){
+    document.getElementById('rt').innerHTML =
+      'Browser storage is blocked on <span class="mono">file://</span> origins, so the '
+     +'settings cannot be handed over automatically. Copy the notation above and paste '
+     +'it into Decipher phase 1 instead.';
+    return;
+  }
+  location.href='decipher.html?from=encipher';
+}
+function verify(){
+  if(!LAST) run();
+  const blk={ lines:[], lens:LAST.lens, flat:LAST.flat };
+  const back = D.decipher(blk,{key:KEY, order:order(), spec:spec()}).text;
+  const ok = back===LAST.kept;
+  document.getElementById('rt').innerHTML = ok
+    ? `<span style="color:var(--good)">round-trip PASS</span> — deciphering this with the same key and settings returns the plaintext exactly.`
+    : `<span style="color:var(--bad)">round-trip FAIL</span><br>in&nbsp;&nbsp;${LAST.kept}<br>out ${back}`;
+}
+drawKey(); convChanged();
+</script>
+<footer style="max-width:1720px;margin:0 auto;padding:6px 14px 20px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-size:11px;color:var(--dim)"><span>Dorabella toolkit &middot; part of the <a href="../index.html">Dorabella investigation</a> &middot; <a href="../08-attempts.html">what I tried</a></span><span><a href="https://bugfishtm.github.io/privacy.html">Privacy</a> &middot; <a href="https://bugfishtm.github.io/impressum.html">Impressum</a></span></footer>
+</body>
+</html>
